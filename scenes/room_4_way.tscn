@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=4 uid="uid://bkx6cb11nefd8"]
+
+[ext_resource type="Texture2D" uid="uid://ca4gyg3xveide" path="res://assets/tilemaps/tilemap.png" id="1_x6v4s"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_07pho"]
+texture = ExtResource("1_x6v4s")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+
+[sub_resource type="TileSet" id="TileSet_cywsn"]
+tile_size = Vector2i(32, 32)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_07pho")
+
+[node name="Room4Way" type="Node2D"]
+
+[node name="Layer0" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAAgAAAAAAAAAAAAIAAAAAAAAAAAAAAAHAAAAAAAAAAAAAAACAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAYAAAAAAAAAAAADAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAJAAAAAAAAAAAAAAAJAAEAAAAAAAAAAAAJAAIAAAAAAAAAAAAJAAMAAAAAAAAAAAAJAAYAAAAAAAAAAAAJAAcAAAAAAAAAAAAJAAgAAAAAAAAAAAAJAAkAAAAAAAAAAAAIAAkAAAAAAAAAAAAHAAkAAAAAAAAAAAAGAAkAAAAAAAAAAAADAAkAAAAAAAAAAAACAAkAAAAAAAAAAAABAAkAAAAAAAAAAAAAAAkAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_cywsn")
