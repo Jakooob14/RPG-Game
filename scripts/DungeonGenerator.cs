@@ -1,17 +1,12 @@
-using Godot;
 using System;
+using Godot;
 using System.Collections.Generic;
-using System.ComponentModel;
 using RPGHra.scripts;
 using Vector2 = Godot.Vector2;
 
 public partial class DungeonGenerator : Node
 {
-	private readonly PackedScene _roomAll = ResourceLoader.Load<PackedScene>("res://scenes/rooms/room_4_way.tscn");
-	private readonly PackedScene _roomNorth = ResourceLoader.Load<PackedScene>("res://scenes/rooms/room_north.tscn");
-	private readonly PackedScene _roomEast = ResourceLoader.Load<PackedScene>("res://scenes/rooms/room_east.tscn");
-	private readonly PackedScene _roomSouth = ResourceLoader.Load<PackedScene>("res://scenes/rooms/room_south.tscn");
-	private readonly PackedScene _roomWest = ResourceLoader.Load<PackedScene>("res://scenes/rooms/room_west.tscn");
+	private readonly PackedScene _room = ResourceLoader.Load<PackedScene>("res://scenes/rooms/room.tscn");
 	private readonly PackedScene _floor = ResourceLoader.Load<PackedScene>("res://scenes/rooms/floor.tscn");
 	private readonly PackedScene _doors = ResourceLoader.Load<PackedScene>("res://scenes/rooms/doors.tscn");
 	
@@ -38,17 +33,29 @@ public partial class DungeonGenerator : Node
 				GenerateRooms();
 				LoadDungeon();
 			}
+			else if (eventKey.Pressed && eventKey.Keycode == Key.E)
+			{
+				UnloadDungeon();
+			}
 
 	}
 
 	void GenerateRooms()
 	{
 		GD.Print("Regenerating...");
-		_rooms.Clear();
+		UnloadDungeon();
+		// foreach (var room in _rooms.Values)
+		// {
+		// 	try
+		// 	{
+		// 		room.RoomRef.QueueFree();
+		// 	}
+		// 	catch (ObjectDisposedException e) { }
+		// }
+		// _rooms.Clear();
 		
 		// Create a starting room at 0,0
-		Node2D startingRoom = (Node2D)_roomAll.Instantiate();
-		_rooms[Vector2I.Zero] = new Room(startingRoom);
+		_rooms[Vector2I.Zero] = new Room((Node2D)_room.Instantiate());
 
 		int roomCount = 1;
 		int tries = 0;
@@ -71,14 +78,13 @@ public partial class DungeonGenerator : Node
 					// Based on a defined chance, spawns a room and adds the connections
 					if (GD.RandRange(0, 100) > _roomChance) continue;
 					
-					Room newRoom = new Room((Node2D)_roomAll.Instantiate());
-					newRooms[room.Key + direction] = newRoom;
+					newRooms[room.Key + direction] = new Room((Node2D)_room.Instantiate());
+					
+					// if (room.Value.ConnectedRooms[direction] == null)
+					// {
+						ConnectRooms(room.Value, newRooms[room.Key + direction], direction);
+					// }
 					roomCount++;
-
-					if (room.Value.ConnectedRooms[direction] == null)
-					{
-						ConnectRooms(room.Value, newRoom, direction);
-					}
 				}
 			}
 
@@ -86,6 +92,8 @@ public partial class DungeonGenerator : Node
 			{
 				_rooms[newRoom.Key] = newRoom.Value;
 			}
+
+			newRooms.Clear();
 		}
 	}
 
@@ -98,8 +106,9 @@ public partial class DungeonGenerator : Node
 		room1.NumberOfConnections++;
 		room2.NumberOfConnections++;
 		
-		// RemoveWall(room1.RoomRef, direction);
-		// RemoveWall(room2.RoomRef, -direction);
+		// Remove connected walls
+		RemoveWall(room1.RoomRef, direction);
+		RemoveWall(room2.RoomRef, -direction);
 	}
 	
 	void RemoveWall(Node2D room, Vector2I direction)
@@ -118,47 +127,27 @@ public partial class DungeonGenerator : Node
 			var wall = room.GetNodeOrNull<Node2D>("./Node2D/" + wallNodeName);
 			if (wall != null)
 			{
-				wall.QueueFree(); // Remove the wall
+				wall.QueueFree();
 			}
 		}
 	}
 	private void LoadDungeon()
 	{
 	    Node mapNode = GetNode<Node>(".");
-	    Texture2D branchSprite = GD.Load<Texture2D>("res://assets/map_nodes3.png");
-
-	    // Clear previous map
-	    for (int i = 0; i < mapNode.GetChildCount(); i++)
-	    {
-	        mapNode.GetChild(i).QueueFree();
-	    }
 	    
+	    // Clear previous map
+	    foreach (Node child in mapNode.GetChildren())
+	    {
+		    child.QueueFree();
+	    }
+
 	    // Iterate through dungeon keys and generate map
        foreach (KeyValuePair<Vector2I, Room> room in _rooms)
        {
            // Create node sprite
            Node2D temp = room.Value.RoomRef;
-           temp.Name = $"Room {temp.Position.X},{temp.Position.Y}";
-           
-           // switch (room.Value.NumberOfConnections)
-           // {
-           //  case 1:
-	          //   temp = _roomWest.Instantiate<Node2D>();
-           //
-	          //   Vector2I[] directions = { Vector2I.Down, Vector2I.Left, Vector2I.Right, Vector2I.Up };
-           //
-	          //   foreach (Vector2I direction in directions)
-	          //   {
-	    	     //    if (room.Value.ConnectedRooms[direction] != null)
-	    	     //    {
-	    		    //     temp.RotationDegrees = room.Value.DirectionRotations[direction];
-	    	     //    }
-	          //   }
-	          //   
-	          //   break;
-           // }
-           
-           
+           temp.SetName($"Room {room.Key.X},{room.Key.Y}");
+           temp.SetMeta("coordinates", room.Key);
            
            foreach (Node child in temp.GetNode<Node2D>("./Node2D").GetChildren())
            {
@@ -171,16 +160,6 @@ public partial class DungeonGenerator : Node
            		        label.Text += $"\n{connectedRoom.Key.X}, {connectedRoom.Key.Y}";
 	                }
 	            }
-           }
-           
-           Vector2I[] directions = { Vector2I.Down, Vector2I.Left, Vector2I.Right, Vector2I.Up };
-
-           foreach (Vector2I direction in directions)
-           {
-	           if (room.Value.ConnectedRooms[direction] != null)
-	           {
-		           RemoveWall(temp, direction);
-	           }
            }
            
            temp.Position = room.Key * _roomSize;
@@ -203,36 +182,38 @@ public partial class DungeonGenerator : Node
             mapNode.AddChild(temp);
            }
 
+           
 	        // Get connected rooms
 	        var connectedRooms = room.Value.ConnectedRooms;
 
-	        // Check for connected room at (1, 0)
-	        Room value;
-	        connectedRooms.TryGetValue(new Vector2I(1, 0), out value);
-	        if (value != null)
+	        // Check for connected room at 1,0
+	        if (connectedRooms[new Vector2I(1, 0)] != null)
 	        {
-	            var temp2 = new Sprite2D();
-	            temp2.Texture = branchSprite;
-	            temp2.ZIndex = 5;
-	            temp2.Scale = new Vector2(10, 10);
-	            temp2.Position = new Vector2(room.Key.X * _roomSize + _roomSize / 2.0f, room.Key.Y * _roomSize);
-	            mapNode.AddChild(temp2);
+				Node2D doors = _doors.Instantiate<Node2D>();
+	            doors.Position = new Vector2(room.Key.X * _roomSize + _roomSize / 2.0f - 16, room.Key.Y * _roomSize);
+	            mapNode.AddChild(doors);
 	        }
-
-	        // Check for connected room at (0, 1)
-	        Room value2;
-	        connectedRooms.TryGetValue(new Vector2I(0, 1), out value2);
-	        if (value2 != null)
+	        
+	        // Check for connected room at 0,1
+	        if (connectedRooms[new Vector2I(0, 1)] != null)
 	        {
-	            var temp2 = new Sprite2D();
-	            temp2.Texture = branchSprite;
-	            temp2.ZIndex = 5;
-	            temp2.RotationDegrees = 90;
-	            temp2.Scale = new Vector2(10, 10);
-	            temp2.Position = new Vector2(room.Key.X * _roomSize, room.Key.Y * _roomSize + _roomSize / 2.0f);
-	            mapNode.AddChild(temp2);
+				Node2D doors = _doors.Instantiate<Node2D>();
+	            doors.RotationDegrees = 90;
+	            doors.Position = new Vector2(room.Key.X * _roomSize, room.Key.Y * _roomSize + _roomSize / 2.0f - 16);
+	            mapNode.AddChild(doors);
 	        }
 	    }
+	}
+
+	private void UnloadDungeon()
+	{
+		foreach (Room room in _rooms.Values)
+		{
+			room.RoomRef.QueueFree();
+		}
+		_rooms.Clear();
+
+		GD.Print("Unloaded");
 	}
 }
 

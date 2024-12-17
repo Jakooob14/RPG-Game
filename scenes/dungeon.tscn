@@ -25,3 +25,4 @@ label_settings = SubResource("LabelSettings_b6khp")
 
 [node name="Rooms" type="Node" parent="."]
 script = ExtResource("2_t7kup")
+_roomSize = 544

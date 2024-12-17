@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=4 uid="uid://bkx6cb11nefd8"]
+[gd_scene load_steps=3 format=3 uid="uid://dhi8ic4oq8l31"]
 
 [ext_resource type="PackedScene" uid="uid://ckayinhh02pf3" path="res://scenes/rooms/room.tscn" id="1_wumtm"]
 [ext_resource type="TileSet" uid="uid://b5gxo5pbbwtxa" path="res://assets/tilesets/wall_tileset.tres" id="2_2w4og"]
@@ -6,22 +6,18 @@
 [node name="Room4Way" instance=ExtResource("1_wumtm")]
 metadata/door_connections = Vector4i(1, 1, 1, 1)
 
-[node name="Layer0" parent="Node2D" index="0"]
-tile_map_data = PackedByteArray("AAAAAAIAAAAAAAEAAAAAAAEAAAAAAAEAAAAAAAAAAAAAAAEAAAABAAAAAAAAAAEAAAACAAAAAAAAAAEAAAADAAAAAAAAAAEAAAAAAAMAAAAAAAEAAAAGAAAAAAAAAAEAAAAHAAAAAAAAAAEAAAAIAAAAAAAAAAEAAAAJAAAAAAAAAAEAAAAJAAEAAAAAAAEAAAAJAAIAAAAAAAEAAAAJAAMAAAAAAAEAAAAAAAYAAAAAAAEAAAAAAAcAAAAAAAEAAAAAAAgAAAAAAAEAAAAAAAkAAAAAAAEAAAABAAkAAAAAAAEAAAACAAkAAAAAAAEAAAADAAkAAAAAAAEAAAAJAAYAAAAAAAEAAAAJAAcAAAAAAAEAAAAJAAgAAAAAAAEAAAAJAAkAAAAAAAEAAAAIAAkAAAAAAAEAAAAHAAkAAAAAAAEAAAAGAAkAAAAAAAEAAAA=")
+[node name="BottomWall2" type="TileMapLayer" parent="Node2D" index="2"]
+tile_map_data = PackedByteArray(0, 0, 4, 0, 9, 0, 0, 0, 1, 0, 0, 0, 0, 0, 5, 0, 9, 0, 0, 0, 1, 0, 0, 0, 0, 0)
 tile_set = ExtResource("2_2w4og")
 
-[node name="BottomWall" type="TileMapLayer" parent="Node2D" index="2"]
-tile_map_data = PackedByteArray("AAAEAAkAAAABAAAAAAAFAAkAAAABAAAAAAA=")
+[node name="TopWall2" type="TileMapLayer" parent="Node2D" index="3"]
+tile_map_data = PackedByteArray(0, 0, 4, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0)
 tile_set = ExtResource("2_2w4og")
 
-[node name="TopWall" type="TileMapLayer" parent="Node2D" index="3"]
-tile_map_data = PackedByteArray("AAAEAAAAAAABAAAAAAAFAAAAAAABAAAAAAA=")
+[node name="RightWall2" type="TileMapLayer" parent="Node2D" index="4"]
+tile_map_data = PackedByteArray(0, 0, 9, 0, 5, 0, 0, 0, 1, 0, 0, 0, 0, 0, 9, 0, 4, 0, 0, 0, 1, 0, 0, 0, 0, 0)
 tile_set = ExtResource("2_2w4og")
 
-[node name="RightWall" type="TileMapLayer" parent="Node2D" index="4"]
-tile_map_data = PackedByteArray("AAAJAAUAAAABAAAAAAAJAAQAAAABAAAAAAA=")
-tile_set = ExtResource("2_2w4og")
-
-[node name="LeftWall" type="TileMapLayer" parent="Node2D" index="5"]
-tile_map_data = PackedByteArray("AAAAAAUAAAABAAAAAAAAAAQAAAABAAAAAAA=")
+[node name="LeftWall2" type="TileMapLayer" parent="Node2D" index="5"]
+tile_map_data = PackedByteArray(0, 0, 0, 0, 5, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 1, 0, 0, 0, 0, 0)
 tile_set = ExtResource("2_2w4og")

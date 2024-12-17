@@ -1,34 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://ckayinhh02pf3"]
+[gd_scene load_steps=3 format=4 uid="uid://ckayinhh02pf3"]
 
-[ext_resource type="Texture2D" uid="uid://ca4gyg3xveide" path="res://assets/tilemaps/tilemap.png" id="1_hb45n"]
+[ext_resource type="TileSet" uid="uid://b5gxo5pbbwtxa" path="res://assets/tilesets/wall_tileset.tres" id="1_efibu"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_07pho"]
-texture = ExtResource("1_hb45n")
-texture_region_size = Vector2i(32, 32)
-0:0/0 = 0
-0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
-1:0/0 = 0
-1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
-0:1/0 = 0
-0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
-
-[sub_resource type="TileSet" id="TileSet_cywsn"]
-tile_size = Vector2i(32, 32)
-physics_layer_0/collision_layer = 1
-sources/0 = SubResource("TileSetAtlasSource_07pho")
-
-[sub_resource type="LabelSettings" id="LabelSettings_fea8f"]
+[sub_resource type="LabelSettings" id="LabelSettings_f7pn1"]
 font_size = 32
 
 [node name="Room" type="Node2D"]
+z_index = 5
 metadata/coordinates = Vector2i(0, 0)
 metadata/door_connections = Vector4i(0, 0, 0, 0)
 
 [node name="Node2D" type="Node2D" parent="."]
 position = Vector2(-160, -160)
-
-[node name="Layer0" type="TileMapLayer" parent="Node2D"]
-tile_set = SubResource("TileSet_cywsn")
 
 [node name="Coordinates" type="Label" parent="Node2D"]
 offset_left = 37.0
@@ -36,4 +19,24 @@ offset_top = 35.0
 offset_right = 128.0
 offset_bottom = 80.0
 text = "x, y"
-label_settings = SubResource("LabelSettings_fea8f")
+label_settings = SubResource("LabelSettings_f7pn1")
+
+[node name="Walls" type="TileMapLayer" parent="Node2D"]
+tile_map_data = PackedByteArray("AAD8/w0AAAAAAAAAAAD8/wwAAAAAAAAAAAD8/wsAAAAAAAAAAAD8/woAAAAAAAAAAAD8/wkAAAAAAAAAAAD8/wgAAAAAAAAAAAD8/wcAAAAAAAAAAAD8/wYAAAAAAAAAAAD8/wMAAAAAAAAAAAD8/wIAAAAAAAAAAAD8/wEAAAAAAAAAAAD8/wAAAAAAAAAAAAD8//z/AAAAAAAAAAANAPz/AAAAAAAAAAANAA0AAAAAAAAAAAANAAwAAAAAAAAAAAANAAsAAAAAAAAAAAANAAoAAAAAAAAAAAANAAkAAAAAAAAAAAANAAgAAAAAAAAAAAANAAcAAAAAAAAAAAANAAYAAAAAAAAAAAANAAMAAAAAAAAAAAANAAIAAAAAAAAAAAANAAEAAAAAAAAAAAANAAAAAAAAAAAAAAANAP//AAAAAAAAAAANAP7/AAAAAAAAAAANAP3/AAAAAAAAAAAMAPz/AAAAAAAAAAALAPz/AAAAAAAAAAAKAPz/AAAAAAAAAAAJAPz/AAAAAAAAAAAIAPz/AAAAAAAAAAAHAPz/AAAAAAAAAAAGAPz/AAAAAAAAAAADAPz/AAAAAAAAAAACAPz/AAAAAAAAAAABAPz/AAAAAAAAAAAAAPz/AAAAAAAAAAD///z/AAAAAAAAAAD+//z/AAAAAAAAAAD9//z/AAAAAAAAAAD8//3/AAAAAAAAAAD8//7/AAAAAAAAAAD8////AAAAAAAAAAD9/w0AAAAAAAAAAAD+/w0AAAAAAAAAAAD//w0AAAAAAAAAAAAAAA0AAAAAAAAAAAABAA0AAAAAAAAAAAACAA0AAAAAAAAAAAADAA0AAAAAAAAAAAAGAA0AAAAAAAAAAAAHAA0AAAAAAAAAAAAIAA0AAAAAAAAAAAAJAA0AAAAAAAAAAAAKAA0AAAAAAAAAAAALAA0AAAAAAAAAAAAMAA0AAAAAAAAAAAA=")
+tile_set = ExtResource("1_efibu")
+
+[node name="BottomWall" type="TileMapLayer" parent="Node2D"]
+tile_map_data = PackedByteArray("AAAEAA0AAAAAAAAAAAAFAA0AAAAAAAAAAAA=")
+tile_set = ExtResource("1_efibu")
+
+[node name="TopWall" type="TileMapLayer" parent="Node2D"]
+tile_map_data = PackedByteArray("AAAEAPz/AAAAAAAAAAAFAPz/AAAAAAAAAAA=")
+tile_set = ExtResource("1_efibu")
+
+[node name="RightWall" type="TileMapLayer" parent="Node2D"]
+tile_map_data = PackedByteArray("AAANAAQAAAAAAAAAAAANAAUAAAAAAAAAAAA=")
+tile_set = ExtResource("1_efibu")
+
+[node name="LeftWall" type="TileMapLayer" parent="Node2D"]
+tile_map_data = PackedByteArray("AAD8/wQAAAAAAAAAAAD8/wUAAAAAAAAAAAA=")
+tile_set = ExtResource("1_efibu")
