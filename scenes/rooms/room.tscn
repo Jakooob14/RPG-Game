@@ -1,9 +1,13 @@
-[gd_scene load_steps=3 format=4 uid="uid://ckayinhh02pf3"]
+[gd_scene load_steps=5 format=4 uid="uid://ckayinhh02pf3"]
 
 [ext_resource type="TileSet" uid="uid://b5gxo5pbbwtxa" path="res://assets/tilesets/wall_tileset.tres" id="1_efibu"]
+[ext_resource type="Script" path="res://scripts/RoomArea.cs" id="2_ce2k5"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_f7pn1"]
 font_size = 32
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3eo24"]
+size = Vector2(520, 520)
 
 [node name="Room" type="Node2D"]
 z_index = 5
@@ -39,3 +43,11 @@ tile_set = ExtResource("1_efibu")
 [node name="LeftWall" type="TileMapLayer" parent="Node2D"]
 tile_map_data = PackedByteArray("AAD3////AAAAAAAAAAD3/wAAAAAAAAAAAAA=")
 tile_set = ExtResource("1_efibu")
+
+[node name="Area2D" type="Area2D" parent="Node2D"]
+script = ExtResource("2_ce2k5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Area2D"]
+shape = SubResource("RectangleShape2D_3eo24")
+
+[connection signal="body_entered" from="Node2D/Area2D" to="Node2D/Area2D" method="OnBodyEntered"]

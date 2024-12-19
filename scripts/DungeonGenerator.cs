@@ -133,13 +133,24 @@ public partial class DungeonGenerator : Node
 	}
 	private void LoadDungeon()
 	{
-	    Node mapNode = GetNode<Node>(".");
+	    Node mapNode = this;
 	    
 	    // Clear previous map
 	    foreach (Node child in mapNode.GetChildren())
 	    {
 		    child.QueueFree();
 	    }
+
+	    Node roomNode = new Node();
+	    roomNode.SetName("Rooms");
+	    Node doorNode = new Node();
+	    doorNode.SetName("Doors");
+	    Node floorNode = new Node();
+	    floorNode.SetName("Floors");
+
+	    mapNode.AddChild(roomNode);
+	    mapNode.AddChild(doorNode);
+	    mapNode.AddChild(floorNode);
 
 	    // Iterate through dungeon keys and generate map
        foreach (KeyValuePair<Vector2I, Room> room in _rooms)
@@ -179,9 +190,8 @@ public partial class DungeonGenerator : Node
 	            }
             }
             
-            mapNode.AddChild(temp);
+            roomNode.AddChild(temp);
            }
-
            
 	        // Get connected rooms
 	        var connectedRooms = room.Value.ConnectedRooms;
@@ -191,7 +201,7 @@ public partial class DungeonGenerator : Node
 	        {
 				Node2D doors = _doors.Instantiate<Node2D>();
 	            doors.Position = new Vector2(room.Key.X * _roomSize + _roomSize / 2.0f - 16, room.Key.Y * _roomSize);
-	            mapNode.AddChild(doors);
+	            doorNode.AddChild(doors);
 	        }
 	        
 	        // Check for connected room at 0,1
@@ -200,7 +210,7 @@ public partial class DungeonGenerator : Node
 				Node2D doors = _doors.Instantiate<Node2D>();
 	            doors.RotationDegrees = 90;
 	            doors.Position = new Vector2(room.Key.X * _roomSize, room.Key.Y * _roomSize + _roomSize / 2.0f - 16);
-	            mapNode.AddChild(doors);
+	            doorNode.AddChild(doors);
 	        }
 	    }
 	}
