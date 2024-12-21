@@ -12,8 +12,8 @@ public partial class DungeonGenerator : Node
 	
 	private readonly Dictionary<Vector2I, Room> _rooms = new ();
 
-	[Export]
-	private int _roomSize = 288;
+	private Vector2 _roomSize = GlobalVariables.RoomSize;
+	
 	[Export]
 	private int _maxRooms = 20;
 	[Export]
@@ -68,7 +68,7 @@ public partial class DungeonGenerator : Node
 			foreach (KeyValuePair<Vector2I, Room> room in _rooms)
 			{
 				tries++;
-				GetNode<Label>("%Player/Camera2D/Label").Text = $"Room count: {roomCount}/{_maxRooms}\nTries: {tries}";
+				GetNode<Label>("%Player/%MainCamera/Label").Text = $"Room count: {roomCount}/{_maxRooms}\nTries: {tries}";
 				
 				// Pick a random direction and check all rooms until it creates a room
 				Vector2I direction = new[] { Vector2I.Down, Vector2I.Left, Vector2I.Right, Vector2I.Up }[GD.RandRange(0, 3)];
@@ -200,7 +200,7 @@ public partial class DungeonGenerator : Node
 	        if (connectedRooms[new Vector2I(1, 0)] != null)
 	        {
 				Node2D doors = _doors.Instantiate<Node2D>();
-	            doors.Position = new Vector2(room.Key.X * _roomSize + _roomSize / 2.0f - 16, room.Key.Y * _roomSize);
+	            doors.Position = new Vector2(room.Key.X * _roomSize.X + _roomSize.X / 2.0f, room.Key.Y * _roomSize.Y);
 	            doorNode.AddChild(doors);
 	        }
 	        
@@ -209,7 +209,7 @@ public partial class DungeonGenerator : Node
 	        {
 				Node2D doors = _doors.Instantiate<Node2D>();
 	            doors.RotationDegrees = 90;
-	            doors.Position = new Vector2(room.Key.X * _roomSize, room.Key.Y * _roomSize + _roomSize / 2.0f - 16);
+	            doors.Position = new Vector2(room.Key.X * _roomSize.X, room.Key.Y * _roomSize.Y + _roomSize.Y / 2.0f);
 	            doorNode.AddChild(doors);
 	        }
 	    }

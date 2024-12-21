@@ -1,12 +1,75 @@
-[gd_scene load_steps=2 format=3 uid="uid://bmgrmmrndfjuy"]
+[gd_scene load_steps=8 format=4 uid="uid://bmgrmmrndfjuy"]
 
 [ext_resource type="TileSet" uid="uid://b5gxo5pbbwtxa" path="res://assets/tilesets/wall_tileset.tres" id="1_dgig2"]
+[ext_resource type="Texture2D" uid="uid://dgb8th1ancdgk" path="res://assets/white_pixel.png" id="2_e7wm8"]
+[ext_resource type="Script" path="res://scripts/RoomArea.cs" id="3_kqxc8"]
+
+[sub_resource type="Animation" id="Animation_ibo4e"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node2D/Overlay:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0.784314)]
+}
+
+[sub_resource type="Animation" id="Animation_dpd5m"]
+resource_name = "door_opacity"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node2D/Overlay:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0.784314), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_notrr"]
+_data = {
+"RESET": SubResource("Animation_ibo4e"),
+"room_opacity": SubResource("Animation_dpd5m")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lrk70"]
+size = Vector2(256, 128)
 
 [node name="Doors" type="Node2D"]
 
 [node name="Node2D" type="Node2D" parent="."]
 
 [node name="Layer0" type="TileMapLayer" parent="Node2D"]
-tile_map_data = PackedByteArray(0, 0, 0, 0, 255, 255, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0)
+tile_map_data = PackedByteArray("AAD/////AAAAAAEAAAAAAP//AAAAAAEAAAAAAAAAAAAAAAEAAAD//wAAAAAAAAEAAAD+////AAAAAAEAAAD+/wAAAAAAAAEAAAABAP//AAAAAAEAAAABAAAAAAAAAAEAAAD9////AAAAAAEAAAD9/wAAAAAAAAEAAAACAP//AAAAAAEAAAACAAAAAAAAAAEAAAD8////AAABAAAAAAD8/wAAAAABAAAAAAADAP//AAABAAAAAAADAAAAAAABAAAAAAD9/wEAAAAAAAAAAAD+/wEAAAAAAAAAAAD//wEAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAEAAAAAAAAAAAACAAEAAAAAAAAAAAD9//7/AAAAAAAAAAD+//7/AAAAAAAAAAD///7/AAAAAAAAAAAAAP7/AAAAAAAAAAABAP7/AAAAAAAAAAACAP7/AAAAAAAAAAA=")
 tile_set = ExtResource("1_dgig2")
 collision_enabled = false
+
+[node name="Overlay" type="Sprite2D" parent="Node2D"]
+modulate = Color(0, 0, 0, 0.784314)
+position = Vector2(-7.62939e-06, -2.16961e-05)
+scale = Vector2(256, 128)
+texture = ExtResource("2_e7wm8")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_notrr")
+}
+
+[node name="Area2D" type="Area2D" parent="Node2D"]
+script = ExtResource("3_kqxc8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Area2D"]
+shape = SubResource("RectangleShape2D_lrk70")
+
+[connection signal="body_entered" from="Node2D/Area2D" to="Node2D/Area2D" method="OnBodyEntered"]
+[connection signal="body_exited" from="Node2D/Area2D" to="Node2D/Area2D" method="OnBodyExited"]

@@ -12,9 +12,11 @@ font_size = 64
 unique_name_in_owner = true
 position = Vector2(0, 1)
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="MainCamera" type="Camera2D" parent="Player"]
+unique_name_in_owner = true
 
-[node name="Label" type="Label" parent="Player/Camera2D"]
+[node name="Label" type="Label" parent="Player/MainCamera"]
+z_index = 999
 offset_left = -1440.0
 offset_top = -810.0
 offset_right = -1400.0
@@ -24,4 +26,3 @@ label_settings = SubResource("LabelSettings_b6khp")
 
 [node name="Rooms" type="Node" parent="."]
 script = ExtResource("2_t7kup")
-_roomSize = 544
