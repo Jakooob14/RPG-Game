@@ -1,0 +1,65 @@
+[gd_scene load_steps=9 format=3 uid="uid://bk40no1qmfa3g"]
+
+[ext_resource type="Texture2D" uid="uid://bak66h1oafdiu" path="res://assets/player.png" id="1_4keti"]
+[ext_resource type="Script" path="res://scripts/Enemy.cs" id="1_fd6yk"]
+[ext_resource type="Texture2D" uid="uid://dtwpm3lxicapn" path="res://assets/kaja.png" id="2_xlrfc"]
+[ext_resource type="FontFile" uid="uid://55klmx3ma3gg" path="res://assets/fonts/Retro Gaming.ttf" id="3_8ps1i"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ogpxm"]
+size = Vector2(44, 32)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rnhx5"]
+radius = 16.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_br13h"]
+radius = 19.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_deb5p"]
+font = ExtResource("3_8ps1i")
+
+[node name="Enemy" type="CharacterBody2D"]
+z_index = 1
+collision_layer = 5
+script = ExtResource("1_fd6yk")
+Speed = 200.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-3.8147e-06, -3.8147e-06)
+scale = Vector2(0.0803348, 0.0803348)
+texture = ExtResource("2_xlrfc")
+
+[node name="Look" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Look"]
+visible = false
+modulate = Color(0.67957, 0.0747829, 9.62615e-08, 1)
+position = Vector2(19.5, 0.500001)
+scale = Vector2(0.15625, 0.15625)
+texture = ExtResource("1_4keti")
+
+[node name="AttackArea" type="Area2D" parent="Look"]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Look/AttackArea"]
+position = Vector2(14, 0)
+shape = SubResource("RectangleShape2D_ogpxm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_rnhx5")
+
+[node name="MaxChaseArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MaxChaseArea"]
+shape = SubResource("CircleShape2D_br13h")
+
+[node name="DebugInfo" type="Label" parent="."]
+visible = false
+z_index = 99
+offset_left = -98.0
+offset_top = -91.0
+offset_right = 98.0
+offset_bottom = -18.0
+label_settings = SubResource("LabelSettings_deb5p")
+horizontal_alignment = 1
+vertical_alignment = 2

@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://ddvjfnp1ub8ea"]
+
+[ext_resource type="FontFile" uid="uid://55klmx3ma3gg" path="res://assets/fonts/Retro Gaming.ttf" id="1_0r8xp"]
+[ext_resource type="Script" path="res://scripts/PlayerUi.cs" id="1_env3l"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_16sie"]
+font = ExtResource("1_0r8xp")
+font_size = 32
+
+[node name="PlayerUI" type="CanvasLayer"]
+script = ExtResource("1_env3l")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="Health" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 202.0
+offset_bottom = 65.0
+text = "Health: 0"
+label_settings = SubResource("LabelSettings_16sie")

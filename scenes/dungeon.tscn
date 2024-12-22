@@ -1,28 +1,35 @@
-[gd_scene load_steps=4 format=3 uid="uid://dkovcjsqb66ty"]
+[gd_scene load_steps=6 format=3 uid="uid://dkovcjsqb66ty"]
 
 [ext_resource type="PackedScene" uid="uid://b1ap3l775wdce" path="res://scenes/player.tscn" id="1_872jb"]
 [ext_resource type="Script" path="res://scripts/DungeonGenerator.cs" id="2_t7kup"]
+[ext_resource type="FontFile" uid="uid://55klmx3ma3gg" path="res://assets/fonts/Retro Gaming.ttf" id="3_8otxa"]
+[ext_resource type="PackedScene" uid="uid://ddvjfnp1ub8ea" path="res://scenes/player_ui.tscn" id="5_c62be"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_b6khp"]
-font_size = 64
+font = ExtResource("3_8otxa")
+font_size = 32
 
 [node name="Dungeon" type="Node2D"]
 
+[node name="PlayerUI" parent="." instance=ExtResource("5_c62be")]
+
 [node name="Player" parent="." instance=ExtResource("1_872jb")]
 unique_name_in_owner = true
-position = Vector2(0, 1)
 
 [node name="MainCamera" type="Camera2D" parent="Player"]
 unique_name_in_owner = true
 
 [node name="Label" type="Label" parent="Player/MainCamera"]
+visible = false
 z_index = 999
-offset_left = -1440.0
-offset_top = -810.0
-offset_right = -1400.0
-offset_bottom = -787.0
+offset_left = 190.0
+offset_top = -335.0
+offset_right = 383.0
+offset_bottom = -247.0
 text = "debug"
 label_settings = SubResource("LabelSettings_b6khp")
 
 [node name="Rooms" type="Node" parent="."]
 script = ExtResource("2_t7kup")
+
+[connection signal="UpdateHealth" from="Player" to="PlayerUI" method="OnPlayerUpdateHealth"]

@@ -1,17 +1,51 @@
-[gd_scene load_steps=4 format=3 uid="uid://b1ap3l775wdce"]
+[gd_scene load_steps=7 format=3 uid="uid://b1ap3l775wdce"]
 
-[ext_resource type="Script" path="res://scripts/player.gd" id="1_ky7xi"]
+[ext_resource type="Script" path="res://scripts/entities/Player.cs" id="1_sudjg"]
 [ext_resource type="Texture2D" uid="uid://bak66h1oafdiu" path="res://assets/player.png" id="1_u70b6"]
+[ext_resource type="FontFile" uid="uid://55klmx3ma3gg" path="res://assets/fonts/Retro Gaming.ttf" id="3_i65vs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ryffl"]
+size = Vector2(44, 32)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rnhx5"]
 radius = 16.0
 
+[sub_resource type="LabelSettings" id="LabelSettings_0c4ty"]
+font = ExtResource("3_i65vs")
+
 [node name="Player" type="CharacterBody2D"]
 z_index = 1
-script = ExtResource("1_ky7xi")
+collision_layer = 3
+script = ExtResource("1_sudjg")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_u70b6")
 
+[node name="Look" type="Node2D" parent="."]
+
+[node name="Sprite2D2" type="Sprite2D" parent="Look"]
+position = Vector2(20, 0)
+scale = Vector2(0.1875, 0.1875)
+texture = ExtResource("1_u70b6")
+
+[node name="PlayerAttackArea" type="Area2D" parent="Look"]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Look/PlayerAttackArea"]
+position = Vector2(14, 0)
+shape = SubResource("RectangleShape2D_ryffl")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_rnhx5")
+
+[node name="DebugInfo" type="Label" parent="."]
+visible = false
+z_index = 99
+offset_left = -98.0
+offset_top = -91.0
+offset_right = 98.0
+offset_bottom = -18.0
+label_settings = SubResource("LabelSettings_0c4ty")
+horizontal_alignment = 1
+vertical_alignment = 2
