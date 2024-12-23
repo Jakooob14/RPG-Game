@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=4 uid="uid://bmgrmmrndfjuy"]
+[gd_scene load_steps=9 format=4 uid="uid://bmgrmmrndfjuy"]
 
 [ext_resource type="TileSet" uid="uid://b5gxo5pbbwtxa" path="res://assets/tilesets/wall_tileset.tres" id="1_dgig2"]
+[ext_resource type="Script" path="res://scripts/Corridor.cs" id="1_rv78d"]
 [ext_resource type="Texture2D" uid="uid://dgb8th1ancdgk" path="res://assets/white_pixel.png" id="2_e7wm8"]
 [ext_resource type="Script" path="res://scripts/RoomArea.cs" id="3_kqxc8"]
 
@@ -44,14 +45,23 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lrk70"]
 size = Vector2(256, 128)
 
-[node name="Doors" type="Node2D"]
+[node name="Corridor" type="Node2D"]
+script = ExtResource("1_rv78d")
 
 [node name="Node2D" type="Node2D" parent="."]
 
-[node name="Layer0" type="TileMapLayer" parent="Node2D"]
-tile_map_data = PackedByteArray("AAD/////AAAAAAEAAAAAAP//AAAAAAEAAAAAAAAAAAAAAAEAAAD//wAAAAAAAAEAAAD+////AAAAAAEAAAD+/wAAAAAAAAEAAAABAP//AAAAAAEAAAABAAAAAAAAAAEAAAD9////AAAAAAEAAAD9/wAAAAAAAAEAAAACAP//AAAAAAEAAAACAAAAAAAAAAEAAAD8////AAABAAAAAAD8/wAAAAABAAAAAAADAP//AAABAAAAAAADAAAAAAABAAAAAAD9/wEAAAAAAAAAAAD+/wEAAAAAAAAAAAD//wEAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAEAAAAAAAAAAAACAAEAAAAAAAAAAAD9//7/AAAAAAAAAAD+//7/AAAAAAAAAAD///7/AAAAAAAAAAAAAP7/AAAAAAAAAAABAP7/AAAAAAAAAAACAP7/AAAAAAAAAAA=")
+[node name="Walls" type="TileMapLayer" parent="Node2D"]
+tile_map_data = PackedByteArray("AAD9/wEAAAAAAAAAAAD+/wEAAAAAAAAAAAD//wEAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAEAAAAAAAAAAAACAAEAAAAAAAAAAAD9//7/AAAAAAAAAAD+//7/AAAAAAAAAAD///7/AAAAAAAAAAAAAP7/AAAAAAAAAAABAP7/AAAAAAAAAAACAP7/AAAAAAAAAAA=")
+tile_set = ExtResource("1_dgig2")
+
+[node name="Floor" type="TileMapLayer" parent="Node2D"]
+tile_map_data = PackedByteArray("AAD/////AAAAAAEAAAAAAP//AAAAAAEAAAAAAAAAAAAAAAEAAAD//wAAAAAAAAEAAAD+////AAAAAAEAAAD+/wAAAAAAAAEAAAABAP//AAAAAAEAAAABAAAAAAAAAAEAAAD9////AAAAAAEAAAD9/wAAAAAAAAEAAAACAP//AAAAAAEAAAACAAAAAAAAAAEAAAD8////AAAAAAEAAAD8/wAAAAAAAAEAAAADAP//AAAAAAEAAAADAAAAAAAAAAEAAAA=")
 tile_set = ExtResource("1_dgig2")
 collision_enabled = false
+
+[node name="DoorLayer" type="TileMapLayer" parent="Node2D"]
+tile_map_data = PackedByteArray("AAD9////AAABAAAAAAD9/wAAAAABAAAAAAACAP//AAABAAAAAAACAAAAAAABAAAAAAA=")
+tile_set = ExtResource("1_dgig2")
 
 [node name="Overlay" type="Sprite2D" parent="Node2D"]
 modulate = Color(0, 0, 0, 0.784314)

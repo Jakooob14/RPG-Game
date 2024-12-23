@@ -8,7 +8,7 @@ public partial class DungeonGenerator : Node
 {
     private readonly PackedScene _roomScene = ResourceLoader.Load<PackedScene>("res://scenes/rooms/room.tscn");
     private readonly PackedScene _floorScene = ResourceLoader.Load<PackedScene>("res://scenes/rooms/floor.tscn");
-    private readonly PackedScene _doorScene = ResourceLoader.Load<PackedScene>("res://scenes/rooms/doors.tscn");
+    private readonly PackedScene _corridorScene = ResourceLoader.Load<PackedScene>("res://scenes/rooms/corridor.tscn");
 
     private readonly HashSet<Room> _rooms = new();
     private Vector2 _roomSize = GlobalVariables.RoomSize;
@@ -124,11 +124,11 @@ public partial class DungeonGenerator : Node
         }
 
         var roomNode = new Node { Name = "Rooms" };
-        var doorNode = new Node { Name = "Doors" };
+        var corridorNode = new Node { Name = "Corridors" };
         var floorNode = new Node { Name = "Floors" };
 
         AddChild(roomNode);
-        AddChild(doorNode);
+        AddChild(corridorNode);
         AddChild(floorNode);
 
         foreach (Room room in _rooms)
@@ -138,14 +138,13 @@ public partial class DungeonGenerator : Node
             if (room.GetParent() == null)
             {
                 roomNode.AddChild(room);
-                GenerateRoomContent(room);
             }
 
             foreach (KeyValuePair<Vector2I,Room> connectedRoom in room.ConnectedRooms)
             {
                 if (connectedRoom.Value != null)
                 {
-                    CreateDoor(doorNode, room.RoomPosition, connectedRoom.Key);
+                    CreateDoor(corridorNode, room.RoomPosition, connectedRoom.Key);
                 }
             }
         }
@@ -153,7 +152,7 @@ public partial class DungeonGenerator : Node
 
     private void CreateDoor(Node parent, Vector2I roomPosition, Vector2I direction)
     {
-        var door = _doorScene.Instantiate<Node2D>();
+        var door = _corridorScene.Instantiate<Node2D>();
         door.Position = roomPosition * _roomSize + direction * (_roomSize / 2);
         door.RotationDegrees = direction == Vector2I.Up || direction == Vector2I.Down ? 90 : 0;
         parent.AddChild(door);
@@ -168,14 +167,5 @@ public partial class DungeonGenerator : Node
         _rooms.Clear();
     
         GD.Print("Unloaded");
-    }
-    
-    private void GenerateRoomContent(Room room)
-    {
-        Enemy enemy = ResourceLoader.Load<PackedScene>("res://scenes/enemy.tscn").Instantiate<Enemy>();
-        enemy.Position = room.RoomPosition * _roomSize;
-        enemy.AssignedRoom = room;
-        room.AssignedEntities.Add(enemy);
-        AddChild(enemy);
     }
 }

@@ -46,7 +46,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_53cnw"]
-size = Vector2(1728, 1216)
+size = Vector2(1664, 1152)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3eo24"]
 size = Vector2(1664, 1152)
@@ -88,6 +88,7 @@ tile_set = ExtResource("1_efibu")
 
 [node name="Overlay" type="Sprite2D" parent="Node2D"]
 modulate = Color(0, 0, 0, 1)
+z_index = 100
 position = Vector2(-2.67029e-05, -3.8147e-06)
 scale = Vector2(1664, 1152)
 texture = ExtResource("3_mr4yq")

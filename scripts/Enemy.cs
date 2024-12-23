@@ -77,7 +77,7 @@ Delay: {Math.Round(DelayTimer.TimeLeft, 1)}/{Math.Round(DelayTimer.WaitTime, 1)}
 					if (chaseOverlappingBody is Player) return;
 				}
 
-				Velocity = Position.DirectionTo(player.Position) * Speed;
+				Velocity = GlobalPosition.DirectionTo(player.Position) * Speed;
 
 				MoveAndSlide();
 				return;

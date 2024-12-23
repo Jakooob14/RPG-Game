@@ -43,6 +43,12 @@ public partial class Room : Node2D
     {
         base._Ready();
         
+        
+        Enemy enemy = GD.Load<PackedScene>("res://scenes/enemy.tscn").Instantiate<Enemy>();
+        enemy.AssignedRoom = this;
+        AssignedEntities.Add(enemy);
+        AddChild(enemy);
+        
         // Debug
         Label debugLabel = GetNode<Label>("Node2D/Debug");
         if (debugLabel != null)
@@ -61,26 +67,28 @@ public partial class Room : Node2D
     {
         base._Process(delta);
 
-        // bool livingEntityInRoom = false;
-        // bool playerInRoom = false;
-        // foreach (Node2D overlappingBody in RoomRef.GetNode<Area2D>("Node2D/RoomConstraints").GetOverlappingBodies())
-        // {
-        //     GD.Print("asd");
-        //     if (overlappingBody is not Player)
-        //     {
-        //         GD.Print("notplayer");
-        //         if (overlappingBody is LivingEntity) livingEntityInRoom = true;
-        //     }
-        //     else
-        //     {
-        //         GD.Print("player");
-        //         playerInRoom = true;
-        //     }
-        // }
-        //
-        // if (livingEntityInRoom && playerInRoom)
-        // {
-        //     GD.Print("Not killed all " + GD.RandRange(0, 10000000));
-        // }
+        bool livingEntityInRoom = false;
+        bool playerInRoom = false;
+        foreach (Node2D overlappingBody in GetNode<Area2D>("Node2D/RoomConstraints").GetOverlappingBodies())
+        {
+            if (overlappingBody is not Player)
+            {
+                if (overlappingBody is LivingEntity) livingEntityInRoom = true;
+            }
+            else
+            {
+                playerInRoom = true;
+            }
+        }
+        
+        if (livingEntityInRoom && playerInRoom && !GlobalVariables.EntitiesInRoom)
+        {
+            GlobalVariables.EntitiesInRoom = true;
+        }
+        else if (!livingEntityInRoom && playerInRoom && GlobalVariables.EntitiesInRoom)
+        {
+            GlobalVariables.EntitiesInRoom = false;
+            GD.Print("yes");
+        }
     }
 }
