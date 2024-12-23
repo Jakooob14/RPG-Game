@@ -1,5 +1,6 @@
-[gd_scene load_steps=10 format=4 uid="uid://ckayinhh02pf3"]
+[gd_scene load_steps=11 format=4 uid="uid://ckayinhh02pf3"]
 
+[ext_resource type="Script" path="res://scripts/Room.cs" id="1_3swoq"]
 [ext_resource type="TileSet" uid="uid://b5gxo5pbbwtxa" path="res://assets/tilesets/wall_tileset.tres" id="1_efibu"]
 [ext_resource type="Script" path="res://scripts/RoomArea.cs" id="2_ce2k5"]
 [ext_resource type="Texture2D" uid="uid://dgb8th1ancdgk" path="res://assets/white_pixel.png" id="3_mr4yq"]
@@ -52,11 +53,12 @@ size = Vector2(1664, 1152)
 
 [node name="Room" type="Node2D"]
 z_index = 5
+script = ExtResource("1_3swoq")
 metadata/coordinates = Vector2i(0, 0)
 
 [node name="Node2D" type="Node2D" parent="."]
 
-[node name="Coordinates" type="Label" parent="Node2D"]
+[node name="Debug" type="Label" parent="Node2D"]
 offset_left = -251.0
 offset_top = -251.0
 offset_right = -160.0

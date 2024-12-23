@@ -1,6 +1,7 @@
 using System;
 using Godot;
 using System.Collections.Generic;
+using System.Linq;
 using Vector2 = Godot.Vector2;
 
 public partial class DungeonGenerator : Node
@@ -9,7 +10,7 @@ public partial class DungeonGenerator : Node
     private readonly PackedScene _floorScene = ResourceLoader.Load<PackedScene>("res://scenes/rooms/floor.tscn");
     private readonly PackedScene _doorScene = ResourceLoader.Load<PackedScene>("res://scenes/rooms/doors.tscn");
 
-    private readonly Dictionary<Vector2I, Room> _rooms = new();
+    private readonly HashSet<Room> _rooms = new();
     private Vector2 _roomSize = GlobalVariables.RoomSize;
 
     [Export]
@@ -46,42 +47,39 @@ public partial class DungeonGenerator : Node
         UnloadDungeon();
 
         // Create the starting room at (0,0)
-        _rooms[Vector2I.Zero] = new Room((Node2D)_roomScene.Instantiate())
-        {
-            RoomPosition = Vector2I.Zero
-        };
+        Room startingRoom = _roomScene.Instantiate<Room>();
+        startingRoom.RoomPosition = Vector2I.Zero;
+        _rooms.Add(startingRoom);
 
         int roomCount = 1;
         int tries = 0;
 
         while (roomCount < _maxRooms)
         {
-            var newRooms = new Dictionary<Vector2I, Room>();
+            HashSet<Room> newRooms = new HashSet<Room>();
 
-            foreach (var (currentPosition, room) in _rooms)
+            foreach (Room room in _rooms)
             {
                 tries++;
                 GetNode<Label>("%Player/%MainCamera/Label").Text = $"Room count: {roomCount}/{_maxRooms}\nTries: {tries}";
 
                 Vector2I direction = new[] { Vector2I.Down, Vector2I.Left, Vector2I.Right, Vector2I.Up }[GD.RandRange(0, 3)];
-                Vector2I newPosition = currentPosition + direction;
+                Vector2I newPosition = room.RoomPosition + direction;
 
-                if (!_rooms.ContainsKey(newPosition) && GD.RandRange(0, 100) <= _roomChance)
+                if (_rooms.All(room1 => room1.RoomPosition != newPosition) && GD.RandRange(0, 100) <= _roomChance)
                 {
-                    var newRoom = new Room((Node2D)_roomScene.Instantiate())
-                    {
-                        RoomPosition = newPosition
-                    };
+                    Room newRoom = _roomScene.Instantiate<Room>();
+                    newRoom.RoomPosition = newPosition;
 
-                    newRooms[newPosition] = newRoom;
+                    newRooms.Add(newRoom);
                     ConnectRooms(room, newRoom, direction);
                     roomCount++;
                 }
             }
 
-            foreach (var (position, newRoom) in newRooms)
+            foreach (Room newRoom in newRooms)
             {
-                _rooms[position] = newRoom;
+                _rooms.Add(newRoom);
             }
         }
     }
@@ -96,11 +94,11 @@ public partial class DungeonGenerator : Node
         room2.NumberOfConnections++;
 		
         // Remove connected walls
-        RemoveWall(room1.RoomRef, direction);
-        RemoveWall(room2.RoomRef, -direction);
+        RemoveWall(room1, direction);
+        RemoveWall(room2, -direction);
     }
 
-    private void RemoveWall(Node2D room, Vector2I direction)
+    private void RemoveWall(Room room, Vector2I direction)
     {
         string wallNodeName = direction switch
         {
@@ -113,7 +111,7 @@ public partial class DungeonGenerator : Node
 
         if (wallNodeName != null)
         {
-            var wall = room.GetNodeOrNull<Node2D>("./Node2D/" + wallNodeName);
+            Node2D wall = room?.GetNodeOrNull<Node2D>("./Node2D/" + wallNodeName);
             wall?.QueueFree();
         }
     }
@@ -133,23 +131,21 @@ public partial class DungeonGenerator : Node
         AddChild(doorNode);
         AddChild(floorNode);
 
-        foreach (var (position, room) in _rooms)
+        foreach (Room room in _rooms)
         {
-            var roomInstance = room.RoomRef;
-            roomInstance.Name = $"Room {position.X},{position.Y}";
-            roomInstance.Position = position * _roomSize;
+            room.Name = $"Room {room.RoomPosition.X},{room.RoomPosition.Y}";
 
-            if (roomInstance.GetParent() == null)
+            if (room.GetParent() == null)
             {
-                roomNode.AddChild(roomInstance);
+                roomNode.AddChild(room);
                 GenerateRoomContent(room);
             }
 
-            foreach (var (connectedDirection, connectedRoom) in room.ConnectedRooms)
+            foreach (KeyValuePair<Vector2I,Room> connectedRoom in room.ConnectedRooms)
             {
-                if (connectedRoom != null)
+                if (connectedRoom.Value != null)
                 {
-                    CreateDoor(doorNode, position, connectedDirection);
+                    CreateDoor(doorNode, room.RoomPosition, connectedRoom.Key);
                 }
             }
         }
@@ -162,23 +158,24 @@ public partial class DungeonGenerator : Node
         door.RotationDegrees = direction == Vector2I.Up || direction == Vector2I.Down ? 90 : 0;
         parent.AddChild(door);
     }
-
+    
     private void UnloadDungeon()
     {
-        foreach (var room in _rooms.Values)
+        foreach (Room room in _rooms)
         {
-            room.RoomRef.QueueFree();
+            room.QueueFree();
         }
         _rooms.Clear();
-
+    
         GD.Print("Unloaded");
     }
-
+    
     private void GenerateRoomContent(Room room)
     {
         Enemy enemy = ResourceLoader.Load<PackedScene>("res://scenes/enemy.tscn").Instantiate<Enemy>();
         enemy.Position = room.RoomPosition * _roomSize;
         enemy.AssignedRoom = room;
+        room.AssignedEntities.Add(enemy);
         AddChild(enemy);
     }
 }

@@ -66,7 +66,7 @@ Delay: {Math.Round(DelayTimer.TimeLeft, 1)}/{Math.Round(DelayTimer.WaitTime, 1)}
 		CharacterBody2D player = GetNode<CharacterBody2D>("/root/Dungeon/Player");
 		if (player == null) return;
 		
-		foreach (Node2D overlappingBody in AssignedRoom.RoomRef.GetNode<Area2D>("Node2D/RoomConstraints").GetOverlappingBodies())
+		foreach (Node2D overlappingBody in AssignedRoom.GetNode<Area2D>("Node2D/RoomConstraints").GetOverlappingBodies())
 		{
 			if (overlappingBody is Player)
 			{

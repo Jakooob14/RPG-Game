@@ -3,8 +3,19 @@ using Godot;
 
 public partial class Room : Node2D
 {
-    public Node2D RoomRef { get; set; }
-    public Vector2I RoomPosition { get; set; }
+    private Vector2I _roomPosition;
+
+    public Vector2I RoomPosition
+    {
+        get => _roomPosition;
+        set
+        {
+            _roomPosition = value;
+            Position = value * GlobalVariables.RoomSize;
+        }
+    }
+
+    public HashSet<LivingEntity> AssignedEntities { get; set; } = new HashSet<LivingEntity>();
     
     public readonly Dictionary<Vector2I, float> DirectionRotations = new()
     {
@@ -24,12 +35,52 @@ public partial class Room : Node2D
 
     public int NumberOfConnections = 0;
 
-    public Room(Node2D roomRef)
-    {
-        RoomRef = roomRef;
-    }
-
     public Room()
     {
+    }
+
+    public override void _Ready()
+    {
+        base._Ready();
+        
+        // Debug
+        Label debugLabel = GetNode<Label>("Node2D/Debug");
+        if (debugLabel != null)
+        {
+            debugLabel.Text = $"{RoomPosition.X},{RoomPosition.Y}";
+            foreach (KeyValuePair<Vector2I,Room> connectedRoom in ConnectedRooms)
+            {
+                if (connectedRoom.Value == null) continue;
+
+                debugLabel.Text += $"\n  > {connectedRoom.Value.RoomPosition.X},{connectedRoom.Value.RoomPosition.Y}";
+            }
+        }
+    }
+
+    public override void _Process(double delta)
+    {
+        base._Process(delta);
+
+        // bool livingEntityInRoom = false;
+        // bool playerInRoom = false;
+        // foreach (Node2D overlappingBody in RoomRef.GetNode<Area2D>("Node2D/RoomConstraints").GetOverlappingBodies())
+        // {
+        //     GD.Print("asd");
+        //     if (overlappingBody is not Player)
+        //     {
+        //         GD.Print("notplayer");
+        //         if (overlappingBody is LivingEntity) livingEntityInRoom = true;
+        //     }
+        //     else
+        //     {
+        //         GD.Print("player");
+        //         playerInRoom = true;
+        //     }
+        // }
+        //
+        // if (livingEntityInRoom && playerInRoom)
+        // {
+        //     GD.Print("Not killed all " + GD.RandRange(0, 10000000));
+        // }
     }
 }

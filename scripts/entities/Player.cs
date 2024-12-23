@@ -57,8 +57,24 @@ public partial class Player : LivingEntity
 			{
 				if (overlappingBody is LivingEntity livingEntity && !livingEntity.HasMethod("Player"))
 				{
-					Attack(livingEntity, 5);
+					Attack(livingEntity, 100);
 				}
+			}
+		}
+	}
+
+	public override void _UnhandledInput(InputEvent @event)
+	{
+		if (@event is InputEventMouseButton mouseButtonEvent)
+		{
+			Camera2D camera = GetNode<Camera2D>("%MainCamera");
+			if (camera == null) return;
+			if (mouseButtonEvent.ButtonIndex == MouseButton.WheelDown && mouseButtonEvent.Pressed)
+			{
+				camera.SetZoom(camera.GetZoom() / 1.2f);
+			} else if (mouseButtonEvent.ButtonIndex == MouseButton.WheelUp && mouseButtonEvent.Pressed)
+			{
+				camera.SetZoom(camera.GetZoom() * 1.2f);
 			}
 		}
 	}
