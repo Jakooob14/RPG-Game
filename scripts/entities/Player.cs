@@ -7,9 +7,9 @@ public partial class Player : LivingEntity
 	[Signal]
 	public delegate void UpdateHealthEventHandler(float newHealth);
 	
-	public override void Damage(float damageAmount)
+	public override void Damage(float damageAmount, LivingEntity inducer)
 	{
-		base.Damage(damageAmount);
+		base.Damage(damageAmount, inducer);
 		
 		if (Health <= 0)
 		{
@@ -53,11 +53,11 @@ public partial class Player : LivingEntity
 	{
 		if (@event.IsActionPressed("attack"))
 		{
-			foreach (Node2D overlappingBody in GetNode<Area2D>("Look/PlayerAttackArea").GetOverlappingBodies())
+			foreach (Node2D overlappingBody in GetNode<Area2D>("Look/HurtBox").GetOverlappingBodies())
 			{
 				if (overlappingBody is LivingEntity livingEntity && !livingEntity.HasMethod("Player"))
 				{
-					Attack(livingEntity, 100);
+					Attack(livingEntity, 50);
 				}
 			}
 		}

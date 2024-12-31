@@ -28,15 +28,15 @@ position = Vector2(20, 0)
 scale = Vector2(0.1875, 0.1875)
 texture = ExtResource("1_u70b6")
 
-[node name="PlayerAttackArea" type="Area2D" parent="Look"]
+[node name="HurtBox" type="Area2D" parent="Look"]
 collision_layer = 4
 collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Look/PlayerAttackArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Look/HurtBox"]
 position = Vector2(14, 0)
 shape = SubResource("RectangleShape2D_ryffl")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="HitBox" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_rnhx5")
 
 [node name="DebugInfo" type="Label" parent="."]

@@ -88,7 +88,6 @@ public partial class Room : Node2D
         else if (!livingEntityInRoom && playerInRoom && GlobalVariables.EntitiesInRoom)
         {
             GlobalVariables.EntitiesInRoom = false;
-            GD.Print("yes");
         }
     }
 }

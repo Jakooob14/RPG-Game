@@ -3,13 +3,15 @@ using System;
 
 public partial class Enemy : LivingEntity
 {
+	[Export]
+	public float DamageAmount = 20f;
+	
 	[ExportGroup("Attack Delay")] 
 	[Export] 
 	public float AttackDelayMin = 0.1f;
-	
-	[ExportGroup("Attack Delay")]
 	[Export]
 	public float AttackDelayMax = 0.5f;
+	
 	
 	private protected Timer DelayTimer = new Timer();
 	
@@ -25,7 +27,9 @@ public partial class Enemy : LivingEntity
 
 	void OnAttackDelayTimerTimeout(LivingEntity livingEntity, float damageAmount)
 	{
-		foreach (Node2D overlappingBody in GetNode<Area2D>("Look/AttackArea").GetOverlappingBodies())
+		if (Dead) return;
+		
+		foreach (Node2D overlappingBody in GetNode<Area2D>("Look/HurtBox").GetOverlappingBodies())
 		{
 			if (overlappingBody == livingEntity)
 			{
@@ -46,16 +50,22 @@ public partial class Enemy : LivingEntity
 	{
 		base._Process(delta);
 
-		GetNode<Label>("DebugInfo").Text = @$"
+		if (!Dead)
+		{
+			GetNode<Label>("DebugInfo").Text = @$"
 HP: {Health}/{MaxHealth}
 Cooldown: {Math.Round(AttackTimer.TimeLeft, 1)}/{AttackTimer.WaitTime}
 Delay: {Math.Round(DelayTimer.TimeLeft, 1)}/{Math.Round(DelayTimer.WaitTime, 1)}";
-		
-		foreach (Node2D overlappingBody in GetNode<Area2D>("Look/AttackArea").GetOverlappingBodies())
+		}
+
+		if (!Dead)
 		{
-			if (overlappingBody is Player player)
+			foreach (Node2D overlappingBody in GetNode<Area2D>("Look/HurtBox").GetOverlappingBodies())
 			{
-				Attack(player, 5);
+				if (overlappingBody is Player player)
+				{
+					Attack(player, DamageAmount);
+				}
 			}
 		}
 	}
@@ -68,9 +78,9 @@ Delay: {Math.Round(DelayTimer.TimeLeft, 1)}/{Math.Round(DelayTimer.WaitTime, 1)}
 		
 		foreach (Node2D overlappingBody in AssignedRoom.GetNode<Area2D>("Node2D/RoomConstraints").GetOverlappingBodies())
 		{
-			if (overlappingBody is Player)
+			if (overlappingBody is Player && !Dead)
 			{
-				GetNode<Node2D>("Look").LookAt(player.Position);
+				// GetNode<Node2D>("Look").LookAt(player.Position);
 		
 				foreach (Node2D chaseOverlappingBody in GetNode<Area2D>("MaxChaseArea").GetOverlappingBodies())
 				{
@@ -83,6 +93,18 @@ Delay: {Math.Round(DelayTimer.TimeLeft, 1)}/{Math.Round(DelayTimer.WaitTime, 1)}
 				return;
 			}
 		}
+	}
+
+	public override void Damage(float damageAmount, LivingEntity inducer)
+	{
+		base.Damage(damageAmount, inducer);
+
+		if (Dead) return;
 		
+		GpuParticles2D hitParticles = GetNode<GpuParticles2D>("HitParticles");
+		hitParticles.LookAt(inducer.Position);
+		hitParticles.RotationDegrees += 180;
+		
+		GetNode<AnimationPlayer>("AnimationPlayer").Play("hit");
 	}
 }

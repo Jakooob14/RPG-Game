@@ -11,6 +11,8 @@ public partial class LivingEntity : Entity
     public float Health { get; set; }
     public float MaxHealth { get; set; }
 
+    public bool Dead { get; set; }
+
     private protected Timer AttackTimer = new Timer();
 	
     public LivingEntity()
@@ -19,7 +21,7 @@ public partial class LivingEntity : Entity
         Health = MaxHealth;
     }
 
-    public virtual void Damage(float damageAmount)
+    public virtual void Damage(float damageAmount, LivingEntity inducer)
     {
         Health -= damageAmount;
         if (Health <= 0)
@@ -29,15 +31,28 @@ public partial class LivingEntity : Entity
         // TODO: Backwards knockback
     }
 
-    public virtual void Die()
+    public virtual async void Die()
     {
+        Dead = true;
+        
+        foreach (Node child in GetChildren())
+        {
+            if (child is AnimationPlayer || child is Timer) continue;
+            if (child is GpuParticles2D && child.Name == "DeathParticles") continue;
+            child.QueueFree();
+        }
+        
+        GetNode<GpuParticles2D>("DeathParticles").Emitting = true;
+
+        await ToSignal(GetTree().CreateTimer(GetNode<GpuParticles2D>("DeathParticles").Lifetime), "timeout");
+
         QueueFree();
     }
     
     public virtual void Attack(LivingEntity livingEntity, float damageAmount)
     {
         if (!AttackTimer.IsStopped()) return;
-        livingEntity.Damage(damageAmount);
+        livingEntity.Damage(damageAmount, this);
         AttackTimer.Start();
     }
 
@@ -53,9 +68,12 @@ public partial class LivingEntity : Entity
     public override void _Process(double delta)
     {
         base._Process(delta);
-        
-        GetNode<Label>("DebugInfo").Text = @$"
+
+        if (!Dead)
+        {
+            GetNode<Label>("DebugInfo").Text = @$"
 HP: {Health}/{MaxHealth}
 Cooldown: {Math.Round(AttackTimer.TimeLeft, 1)}/{AttackTimer.WaitTime}";
+        }
     }
 }
