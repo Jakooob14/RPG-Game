@@ -29,6 +29,8 @@ public partial class LivingEntity : Entity
     public Timer AttackTimer = new Timer();
 
     public Vector2 CurrentKnockback = Vector2.Zero;
+
+    private protected Vector2 InitialKnockback = Vector2.Zero;
 	
     public LivingEntity()
     {
@@ -47,15 +49,14 @@ public partial class LivingEntity : Entity
         
         GetNode<AnimationPlayer>("AnimationPlayer").Play("hit");
         Knockback(inducer.GlobalPosition, KnockbackMultiplier);
-        // TODO: Backwards knockback
     }
     public virtual void Knockback(Vector2 fromPosition, float knockbackMultiplier = 1.0f)
     {
         Vector2 direction = (GlobalPosition - fromPosition).Normalized();
         float knockbackSpeed = (KnockbackSpeedOverride ? KnockbackSpeedOverrideValue : Speed);
 
-        // Set the initial knockback velocity
         CurrentKnockback = direction * knockbackSpeed * knockbackMultiplier * 2.0f;
+        InitialKnockback = CurrentKnockback;
     }
 
     public virtual async void Die()
@@ -81,7 +82,11 @@ public partial class LivingEntity : Entity
         if (!AttackTimer.IsStopped()) return;
         livingEntity.Damage(damageAmount, this);
         AttackTimer.Start();
+        OnAttackTimerStart();
     }
+
+    public virtual void OnAttackTimerStart(){}
+    public virtual void OnAttackTimerEnd(){}
 
     public override void _Ready()
     {
@@ -90,6 +95,7 @@ public partial class LivingEntity : Entity
         AddChild(AttackTimer);
         AttackTimer.OneShot = true;
         AttackTimer.WaitTime = AttackCooldown;
+        AttackTimer.Timeout += OnAttackTimerEnd;
     }
 
     public override void _PhysicsProcess(double delta)

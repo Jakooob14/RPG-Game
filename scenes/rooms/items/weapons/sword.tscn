@@ -14,7 +14,7 @@ step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sword:rotation")
+tracks/0/path = NodePath("Item:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -26,7 +26,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Sword/Marker2D/HurtBox:monitoring")
+tracks/1/path = NodePath("Item/Marker2D/HurtBox:monitoring")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -44,22 +44,24 @@ _data = {
 [node name="Sword" instance=ExtResource("1_anxh2")]
 script = ExtResource("2_d8vx8")
 
-[node name="Sword" type="Marker2D" parent="." index="0"]
+[node name="Item" type="Marker2D" parent="." index="0"]
+unique_name_in_owner = true
 z_index = 50
 
-[node name="Marker2D" type="Marker2D" parent="Sword" index="0"]
+[node name="Marker2D" type="Marker2D" parent="Item" index="0"]
 position = Vector2(100, 0)
 
-[node name="SwordSprite" type="Sprite2D" parent="Sword/Marker2D" index="0"]
+[node name="ItemSprite" type="Sprite2D" parent="Item/Marker2D" index="0"]
+unique_name_in_owner = true
 scale = Vector2(0.113448, 0.113448)
 texture = ExtResource("2_ec8hr")
 
-[node name="HurtBox" type="Area2D" parent="Sword/Marker2D" index="1"]
+[node name="HurtBox" type="Area2D" parent="Item/Marker2D" index="1"]
 collision_layer = 7
 collision_mask = 7
 monitoring = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sword/Marker2D/HurtBox" index="0"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Item/Marker2D/HurtBox" index="0"]
 position = Vector2(22, 0)
 shape = SubResource("RectangleShape2D_ryk7f")
 
@@ -68,4 +70,4 @@ libraries = {
 "": SubResource("AnimationLibrary_4kumw")
 }
 
-[connection signal="body_entered" from="Sword/Marker2D/HurtBox" to="." method="OnHurtBoxBodyEntered"]
+[connection signal="body_entered" from="Item/Marker2D/HurtBox" to="." method="OnHurtBoxBodyEntered"]

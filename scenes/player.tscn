@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b1ap3l775wdce"]
+[gd_scene load_steps=14 format=3 uid="uid://b1ap3l775wdce"]
 
 [ext_resource type="Script" path="res://scripts/entities/Player.cs" id="1_sudjg"]
 [ext_resource type="Texture2D" uid="uid://bak66h1oafdiu" path="res://assets/player.png" id="1_u70b6"]
@@ -51,11 +51,17 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="Animation_vexdo"]
 resource_name = "hit"
 
+[sub_resource type="Animation" id="Animation_f7pp2"]
+resource_name = "progress_bar_fade"
+length = 0.100005
+step = 0.05
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_77x86"]
 _data = {
 "RESET": SubResource("Animation_3xt7b"),
 "hit": SubResource("Animation_vexdo"),
-"idle": SubResource("Animation_ukbve")
+"idle": SubResource("Animation_ukbve"),
+"progress_bar_fade": SubResource("Animation_f7pp2")
 }
 
 [node name="Player" type="CharacterBody2D"]
@@ -64,6 +70,7 @@ collision_mask = 2
 safe_margin = 1.0
 script = ExtResource("1_sudjg")
 AttackCooldown = 0.5
+KnockbackMultiplier = 5.0
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
 scale = Vector2(0.1, 0.1)

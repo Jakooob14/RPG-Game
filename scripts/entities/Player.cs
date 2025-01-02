@@ -30,12 +30,17 @@ public partial class Player : LivingEntity
 	public override void _PhysicsProcess(double delta)
 	{
 		base._PhysicsProcess(delta);
-		
+
+		float velocityMultiplier = 1.0f;
 		if (Math.Abs(CurrentKnockback.X) > 0.0f || Math.Abs(CurrentKnockback.Y) > 0.0f)
 		{
 			Velocity = CurrentKnockback;
 			MoveAndSlide();
-			// return;
+			velocityMultiplier = 1.0f - (CurrentKnockback.X + CurrentKnockback.Y) / (InitialKnockback.X + InitialKnockback.Y);
+		}
+		else
+		{
+			velocityMultiplier = 1;
 		}
 		
 		Vector2 velocity = Velocity;
@@ -50,14 +55,8 @@ public partial class Player : LivingEntity
 			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
 			velocity.Y = Mathf.MoveToward(Velocity.Y, 0, Speed);
 		}
-
 		
-		Velocity = velocity;
-		
-		if (Math.Abs(CurrentKnockback.X) > 1.0f && Math.Abs(CurrentKnockback.Y) > 1.0f)
-		{
-			Velocity /= CurrentKnockback;
-		}
+		Velocity = velocity * velocityMultiplier;
 		
 		MoveAndSlide();
 	}

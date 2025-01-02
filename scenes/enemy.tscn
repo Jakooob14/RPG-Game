@@ -171,6 +171,7 @@ safe_margin = 1.0
 script = ExtResource("1_fd6yk")
 DamageAmount = 1.0
 Speed = 200.0
+KnockbackMultiplier = 5.0
 KnockbackSpeedOverride = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

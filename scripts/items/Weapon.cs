@@ -17,6 +17,7 @@ public partial class Weapon : Item
             if (parent.AttackTimer.IsStopped())
             {
                 parent.AttackTimer.Start();
+                parent.OnAttackTimerStart();
             }
             else return;
         }

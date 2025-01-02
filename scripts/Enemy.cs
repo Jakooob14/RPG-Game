@@ -75,11 +75,16 @@ Delay: {Math.Round(DelayTimer.TimeLeft, 1)}/{Math.Round(DelayTimer.WaitTime, 1)}
 	{
 		base._PhysicsProcess(delta);
 		
+		float velocityMultiplier = 1.0f;
 		if (Math.Abs(CurrentKnockback.X) > 0.0f || Math.Abs(CurrentKnockback.Y) > 0.0f)
 		{
 			Velocity = CurrentKnockback;
 			MoveAndSlide();
-			// return;
+			velocityMultiplier = 1.0f - (CurrentKnockback.X + CurrentKnockback.Y) / (InitialKnockback.X + InitialKnockback.Y);
+		}
+		else
+		{
+			velocityMultiplier = 1;
 		}
 		
 		if (!HasNode("/root/Dungeon/Player")) return;
@@ -97,12 +102,7 @@ Delay: {Math.Round(DelayTimer.TimeLeft, 1)}/{Math.Round(DelayTimer.WaitTime, 1)}
 					if (chaseOverlappingBody is Player) return;
 				}
 
-				Velocity = GlobalPosition.DirectionTo(player.Position) * Speed;
-
-				if (Math.Abs(CurrentKnockback.X) > 1.0f && Math.Abs(CurrentKnockback.Y) > 1.0f)
-				{
-					Velocity /= CurrentKnockback;
-				}
+				Velocity = GlobalPosition.DirectionTo(player.Position) * Speed * velocityMultiplier;
 				
 				MoveAndSlide();
 				return;
