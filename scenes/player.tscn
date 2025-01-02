@@ -1,34 +1,84 @@
-[gd_scene load_steps=7 format=3 uid="uid://b1ap3l775wdce"]
+[gd_scene load_steps=13 format=3 uid="uid://b1ap3l775wdce"]
 
 [ext_resource type="Script" path="res://scripts/entities/Player.cs" id="1_sudjg"]
 [ext_resource type="Texture2D" uid="uid://bak66h1oafdiu" path="res://assets/player.png" id="1_u70b6"]
+[ext_resource type="Texture2D" uid="uid://d3l3ou1tfskm" path="res://assets/entities/enemies/warrior.png" id="2_px634"]
 [ext_resource type="FontFile" uid="uid://55klmx3ma3gg" path="res://assets/fonts/Retro Gaming.ttf" id="3_i65vs"]
+[ext_resource type="PackedScene" uid="uid://dotl11a4cceyw" path="res://scenes/rooms/items/weapons/sword.tscn" id="5_gixiq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ryffl"]
 size = Vector2(44, 32)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_rnhx5"]
-radius = 16.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k3if5"]
+size = Vector2(70, 100)
 
 [sub_resource type="LabelSettings" id="LabelSettings_0c4ty"]
 font = ExtResource("3_i65vs")
 
+[sub_resource type="Animation" id="Animation_3xt7b"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ukbve"]
+resource_name = "idle"
+length = 2.00001
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite:offset")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -50), Vector2(0, 50)]
+}
+
+[sub_resource type="Animation" id="Animation_vexdo"]
+resource_name = "hit"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_77x86"]
+_data = {
+"RESET": SubResource("Animation_3xt7b"),
+"hit": SubResource("Animation_vexdo"),
+"idle": SubResource("Animation_ukbve")
+}
+
 [node name="Player" type="CharacterBody2D"]
 z_index = 1
-collision_layer = 3
+collision_mask = 2
+safe_margin = 1.0
 script = ExtResource("1_sudjg")
+AttackCooldown = 0.5
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_u70b6")
+[node name="PlayerSprite" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_px634")
 
 [node name="Look" type="Node2D" parent="."]
 
 [node name="Sprite2D2" type="Sprite2D" parent="Look"]
+visible = false
 position = Vector2(20, 0)
 scale = Vector2(0.1875, 0.1875)
 texture = ExtResource("1_u70b6")
 
 [node name="HurtBox" type="Area2D" parent="Look"]
+visible = false
 collision_layer = 4
 collision_mask = 4
 
@@ -37,7 +87,7 @@ position = Vector2(14, 0)
 shape = SubResource("RectangleShape2D_ryffl")
 
 [node name="HitBox" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_rnhx5")
+shape = SubResource("RectangleShape2D_k3if5")
 
 [node name="DebugInfo" type="Label" parent="."]
 visible = false
@@ -49,3 +99,13 @@ offset_bottom = -18.0
 label_settings = SubResource("LabelSettings_0c4ty")
 horizontal_alignment = 1
 vertical_alignment = 2
+
+[node name="Item" type="Node2D" parent="."]
+
+[node name="Sword" parent="Item" instance=ExtResource("5_gixiq")]
+z_index = 0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_77x86")
+}

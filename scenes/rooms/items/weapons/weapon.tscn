@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c2b05tjsik17e"]
+
+[ext_resource type="PackedScene" uid="uid://yku3rrivchxx" path="res://scenes/rooms/items/item.tscn" id="1_phkwq"]
+
+[node name="Weapon" instance=ExtResource("1_phkwq")]
+z_index = 5

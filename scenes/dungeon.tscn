@@ -15,6 +15,7 @@ font_size = 32
 
 [node name="Player" parent="." instance=ExtResource("1_872jb")]
 unique_name_in_owner = true
+position = Vector2(-277, -15)
 
 [node name="MainCamera" type="Camera2D" parent="Player"]
 unique_name_in_owner = true

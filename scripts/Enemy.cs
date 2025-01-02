@@ -69,9 +69,19 @@ Delay: {Math.Round(DelayTimer.TimeLeft, 1)}/{Math.Round(DelayTimer.WaitTime, 1)}
 			}
 		}
 	}
-	
+
+
 	public override void _PhysicsProcess(double delta)
 	{
+		base._PhysicsProcess(delta);
+		
+		if (Math.Abs(CurrentKnockback.X) > 0.0f || Math.Abs(CurrentKnockback.Y) > 0.0f)
+		{
+			Velocity = CurrentKnockback;
+			MoveAndSlide();
+			// return;
+		}
+		
 		if (!HasNode("/root/Dungeon/Player")) return;
 		CharacterBody2D player = GetNode<CharacterBody2D>("/root/Dungeon/Player");
 		if (player == null) return;
@@ -89,6 +99,11 @@ Delay: {Math.Round(DelayTimer.TimeLeft, 1)}/{Math.Round(DelayTimer.WaitTime, 1)}
 
 				Velocity = GlobalPosition.DirectionTo(player.Position) * Speed;
 
+				if (Math.Abs(CurrentKnockback.X) > 1.0f && Math.Abs(CurrentKnockback.Y) > 1.0f)
+				{
+					Velocity /= CurrentKnockback;
+				}
+				
 				MoveAndSlide();
 				return;
 			}
@@ -104,7 +119,5 @@ Delay: {Math.Round(DelayTimer.TimeLeft, 1)}/{Math.Round(DelayTimer.WaitTime, 1)}
 		GpuParticles2D hitParticles = GetNode<GpuParticles2D>("HitParticles");
 		hitParticles.LookAt(inducer.Position);
 		hitParticles.RotationDegrees += 180;
-		
-		GetNode<AnimationPlayer>("AnimationPlayer").Play("hit");
 	}
 }

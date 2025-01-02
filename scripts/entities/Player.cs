@@ -3,7 +3,6 @@ using System;
 
 public partial class Player : LivingEntity
 {
-	
 	[Signal]
 	public delegate void UpdateHealthEventHandler(float newHealth);
 	
@@ -30,6 +29,15 @@ public partial class Player : LivingEntity
 
 	public override void _PhysicsProcess(double delta)
 	{
+		base._PhysicsProcess(delta);
+		
+		if (Math.Abs(CurrentKnockback.X) > 0.0f || Math.Abs(CurrentKnockback.Y) > 0.0f)
+		{
+			Velocity = CurrentKnockback;
+			MoveAndSlide();
+			// return;
+		}
+		
 		Vector2 velocity = Velocity;
 		
 		Vector2 direction = Input.GetVector("move_left", "move_right", "move_up", "move_down");
@@ -43,10 +51,15 @@ public partial class Player : LivingEntity
 			velocity.Y = Mathf.MoveToward(Velocity.Y, 0, Speed);
 		}
 
-		Velocity = velocity;
-		MoveAndSlide();
 		
-		GetNode<Node2D>("Look").LookAt(GetGlobalMousePosition());
+		Velocity = velocity;
+		
+		if (Math.Abs(CurrentKnockback.X) > 1.0f && Math.Abs(CurrentKnockback.Y) > 1.0f)
+		{
+			Velocity /= CurrentKnockback;
+		}
+		
+		MoveAndSlide();
 	}
 
 	public override void _Input(InputEvent @event)
@@ -57,7 +70,7 @@ public partial class Player : LivingEntity
 			{
 				if (overlappingBody is LivingEntity livingEntity && !livingEntity.HasMethod("Player"))
 				{
-					Attack(livingEntity, 50);
+					Attack(livingEntity, 0);
 				}
 			}
 		}
@@ -76,6 +89,18 @@ public partial class Player : LivingEntity
 			{
 				camera.SetZoom(camera.GetZoom() * 1.2f);
 			}
+		}
+	}
+
+	public override void _Process(double delta)
+	{
+		base._Process(delta);
+		
+		if (!Dead)
+		{
+			GetNode<Label>("DebugInfo").Text = @$"
+HP: {Health}/{MaxHealth}
+Cooldown: {Math.Round(AttackTimer.TimeLeft, 1)}/{AttackTimer.WaitTime}";
 		}
 	}
 }

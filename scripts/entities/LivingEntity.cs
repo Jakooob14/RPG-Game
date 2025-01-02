@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.ComponentModel;
 
 public partial class LivingEntity : Entity
 {
@@ -7,13 +8,27 @@ public partial class LivingEntity : Entity
     public float Speed = 300.0f;
     [Export] 
     public float AttackCooldown = 1.0f;
+    
+    [ExportGroup("Knockback")]
+    [Export] 
+    public float KnockbackMultiplier = 1.0f;
+    [Export] 
+    public float KnockbackFriction = 0.1f;
+    [ExportGroup("Knockback")]
+    [Export]
+    public bool KnockbackSpeedOverride = false;
+    [ExportGroup("Knockback")]
+    [Export]
+    public float KnockbackSpeedOverrideValue = 300.0f;
 	
     public float Health { get; set; }
     public float MaxHealth { get; set; }
 
     public bool Dead { get; set; }
 
-    private protected Timer AttackTimer = new Timer();
+    public Timer AttackTimer = new Timer();
+
+    public Vector2 CurrentKnockback = Vector2.Zero;
 	
     public LivingEntity()
     {
@@ -24,11 +39,23 @@ public partial class LivingEntity : Entity
     public virtual void Damage(float damageAmount, LivingEntity inducer)
     {
         Health -= damageAmount;
+        
         if (Health <= 0)
         {
             Die();
         }
+        
+        GetNode<AnimationPlayer>("AnimationPlayer").Play("hit");
+        Knockback(inducer.GlobalPosition, KnockbackMultiplier);
         // TODO: Backwards knockback
+    }
+    public virtual void Knockback(Vector2 fromPosition, float knockbackMultiplier = 1.0f)
+    {
+        Vector2 direction = (GlobalPosition - fromPosition).Normalized();
+        float knockbackSpeed = (KnockbackSpeedOverride ? KnockbackSpeedOverrideValue : Speed);
+
+        // Set the initial knockback velocity
+        CurrentKnockback = direction * knockbackSpeed * knockbackMultiplier * 2.0f;
     }
 
     public virtual async void Die()
@@ -64,7 +91,17 @@ public partial class LivingEntity : Entity
         AttackTimer.OneShot = true;
         AttackTimer.WaitTime = AttackCooldown;
     }
-    
+
+    public override void _PhysicsProcess(double delta)
+    {
+        base._PhysicsProcess(delta);
+        
+        if (Math.Abs(CurrentKnockback.X) < 20.0f) CurrentKnockback.X = 0;
+        if (Math.Abs(CurrentKnockback.Y) < 20.0f) CurrentKnockback.Y = 0;
+        
+        CurrentKnockback = CurrentKnockback.Lerp(Vector2.Zero, KnockbackFriction);
+    }
+
     public override void _Process(double delta)
     {
         base._Process(delta);
