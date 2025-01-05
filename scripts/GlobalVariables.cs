@@ -7,4 +7,7 @@ public partial class GlobalVariables : Node
     public static Vector2 RoomSize = new Vector2(53 * 32 + DoorSize.X - 32, 37 * 32 + DoorSize.X - 32);
 
     public static bool EntitiesInRoom = false;
+
+    public static Player Player;
+    public static PlayerUi PlayerUi;
 }

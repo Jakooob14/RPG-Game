@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ItemResource" load_steps=3 format=3 uid="uid://bk0b5u4qegs2t"]
+
+[ext_resource type="Texture2D" uid="uid://bkt11rtby0sr0" path="res://assets/items/weapons/sword.png" id="1_7hbvx"]
+[ext_resource type="Script" path="res://scripts/items/ItemResource.cs" id="1_krsgn"]
+
+[resource]
+script = ExtResource("1_krsgn")
+Texture = ExtResource("1_7hbvx")
+Name = "Swordah"

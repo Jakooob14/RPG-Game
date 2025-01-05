@@ -50,6 +50,11 @@ public partial class LivingEntity : Entity
         GetNode<AnimationPlayer>("AnimationPlayer").Play("hit");
         Knockback(inducer.GlobalPosition, KnockbackMultiplier);
     }
+    public virtual void Heal(float healAmount)
+    {
+        Health += healAmount;
+    }
+    
     public virtual void Knockback(Vector2 fromPosition, float knockbackMultiplier = 1.0f)
     {
         Vector2 direction = (GlobalPosition - fromPosition).Normalized();

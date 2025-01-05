@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ItemResource" load_steps=3 format=3 uid="uid://df6e2blxvkd3f"]
+
+[ext_resource type="Texture2D" uid="uid://dtwpm3lxicapn" path="res://assets/kaja.png" id="1_s7gr2"]
+[ext_resource type="Script" path="res://scripts/items/ItemResource.cs" id="2_djeab"]
+
+[resource]
+script = ExtResource("2_djeab")
+Texture = ExtResource("1_s7gr2")
+Name = "Test"

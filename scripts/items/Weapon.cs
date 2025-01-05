@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Weapon : Item
+public partial class Weapon : Node2D
 {
     [Export] 
     public float DamageAmount = 1.0f;

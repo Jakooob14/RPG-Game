@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c2b05tjsik17e"]
+
+[ext_resource type="Script" path="res://scripts/items/Item.cs" id="1_g386k"]
+
+[node name="Weapon" type="Node2D"]
+z_index = 5
+position = Vector2(-1, 0)
+script = ExtResource("1_g386k")

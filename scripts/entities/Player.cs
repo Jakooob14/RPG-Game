@@ -3,28 +3,48 @@ using System;
 
 public partial class Player : LivingEntity
 {
-	[Signal]
-	public delegate void UpdateHealthEventHandler(float newHealth);
-	
+	[Signal] public delegate void UpdateHealthEventHandler(float newHealth);
+
+	private Item _primaryItem;
+
+	public Item PrimaryItem
+	{
+		get => _primaryItem;
+		set
+		{
+			_primaryItem = value;
+			GlobalVariables.PlayerUi.UpdateItems();
+		}
+	}
+
 	public override void Damage(float damageAmount, LivingEntity inducer)
 	{
 		base.Damage(damageAmount, inducer);
 		
 		if (Health <= 0)
 		{
-			EmitSignal(SignalName.UpdateHealth, 0);
+			GlobalVariables.PlayerUi.UpdateHealth(0);
 			return;
 		}
 		
-		EmitSignal(SignalName.UpdateHealth, Health);
+		GlobalVariables.PlayerUi.UpdateHealth();
+	
+	}
+
+	public override void Heal(float healAmount)
+	{
+		base.Heal(healAmount);
+		
+		GlobalVariables.PlayerUi.UpdateHealth();
 	
 	}
 
 	public override void _Ready()
 	{
 		base._Ready();
-		
-		EmitSignal(SignalName.UpdateHealth, MaxHealth);
+
+		GlobalVariables.Player = this;
+		GlobalVariables.PlayerUi.UpdateHealth(MaxHealth);
 	}
 
 	public override void _PhysicsProcess(double delta)

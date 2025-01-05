@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bak66h1oafdiu" path="res://assets/player.png" id="1_u70b6"]
 [ext_resource type="Texture2D" uid="uid://d3l3ou1tfskm" path="res://assets/entities/enemies/warrior.png" id="2_px634"]
 [ext_resource type="FontFile" uid="uid://55klmx3ma3gg" path="res://assets/fonts/Retro Gaming.ttf" id="3_i65vs"]
-[ext_resource type="PackedScene" uid="uid://dotl11a4cceyw" path="res://scenes/rooms/items/weapons/sword.tscn" id="5_gixiq"]
+[ext_resource type="PackedScene" uid="uid://dotl11a4cceyw" path="res://scenes/items/weapons/sword.tscn" id="5_gixiq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ryffl"]
 size = Vector2(44, 32)
@@ -30,6 +30,9 @@ tracks/0/keys = {
 "values": [Vector2(0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_vexdo"]
+resource_name = "hit"
+
 [sub_resource type="Animation" id="Animation_ukbve"]
 resource_name = "idle"
 length = 2.00001
@@ -47,9 +50,6 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(0, 0), Vector2(0, -50), Vector2(0, 50)]
 }
-
-[sub_resource type="Animation" id="Animation_vexdo"]
-resource_name = "hit"
 
 [sub_resource type="Animation" id="Animation_f7pp2"]
 resource_name = "progress_bar_fade"
@@ -70,7 +70,6 @@ collision_mask = 2
 safe_margin = 1.0
 script = ExtResource("1_sudjg")
 AttackCooldown = 0.5
-KnockbackMultiplier = 5.0
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
 scale = Vector2(0.1, 0.1)
@@ -111,6 +110,8 @@ vertical_alignment = 2
 
 [node name="Sword" parent="Item" instance=ExtResource("5_gixiq")]
 z_index = 0
+DamageAmount = 1.0
+Cooldown = 1.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

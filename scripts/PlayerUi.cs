@@ -7,13 +7,21 @@ public partial class PlayerUi : CanvasLayer
 
 	public override void _Ready()
 	{
+		GlobalVariables.PlayerUi = this;
 		_healthLabel = GetNode<Label>("Control/Health");
 	}
 
-	private void OnPlayerUpdateHealth(float newHealth)
+	public void UpdateHealth(float? newHealth = null)
 	{
-		if (_healthLabel == null) return;
-
+		if (newHealth == null)
+		{
+			newHealth = GlobalVariables.Player.Health;
+		}
 		_healthLabel.Text = $"Health: {newHealth}";
+	}
+
+	public void UpdateItems()
+	{
+		GetNode<TextureRect>("%Items/PrimaryItem/TextureRect").Texture = GlobalVariables.Player.PrimaryItem.GetNode<Sprite2D>("ItemSprite").Texture;
 	}
 }

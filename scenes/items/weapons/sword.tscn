@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://dotl11a4cceyw"]
 
-[ext_resource type="PackedScene" uid="uid://c2b05tjsik17e" path="res://scenes/rooms/items/weapons/weapon.tscn" id="1_anxh2"]
+[ext_resource type="PackedScene" uid="uid://c2b05tjsik17e" path="res://scenes/items/weapons/weapon.tscn" id="1_anxh2"]
 [ext_resource type="Script" path="res://scripts/items/Sword.cs" id="2_d8vx8"]
 [ext_resource type="Texture2D" uid="uid://bkt11rtby0sr0" path="res://assets/items/weapons/sword.png" id="2_ec8hr"]
 

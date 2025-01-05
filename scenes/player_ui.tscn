@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://ddvjfnp1ub8ea"]
+[gd_scene load_steps=5 format=3 uid="uid://ddvjfnp1ub8ea"]
 
 [ext_resource type="FontFile" uid="uid://55klmx3ma3gg" path="res://assets/fonts/Retro Gaming.ttf" id="1_0r8xp"]
 [ext_resource type="Script" path="res://scripts/PlayerUi.cs" id="1_env3l"]
+[ext_resource type="Texture2D" uid="uid://bb6tm6tb5lauw" path="res://assets/missing.png" id="3_tvf1h"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_16sie"]
 font = ExtResource("1_0r8xp")
@@ -24,3 +25,24 @@ offset_right = 202.0
 offset_bottom = 65.0
 text = "Health: 0"
 label_settings = SubResource("LabelSettings_16sie")
+
+[node name="Items" type="Control" parent="Control"]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PrimaryItem" type="Control" parent="Control/Items"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="Control/Items/PrimaryItem"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 0
+offset_top = 69.0
+offset_right = 96.0
+offset_bottom = 165.0
+texture = ExtResource("3_tvf1h")
+expand_mode = 1
+stretch_mode = 5
