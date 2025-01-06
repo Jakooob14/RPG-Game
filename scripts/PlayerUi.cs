@@ -4,11 +4,16 @@ using System;
 public partial class PlayerUi : CanvasLayer
 {
 	private Label _healthLabel;
+	private TextureRect _primaryTexture;
 
 	public override void _Ready()
 	{
 		GlobalVariables.PlayerUi = this;
+
+		_primaryTexture = GetNode<TextureRect>("%Items/PrimaryItem/TextureRect");
+		
 		_healthLabel = GetNode<Label>("Control/Health");
+		_primaryTexture.Texture = null;
 	}
 
 	public void UpdateHealth(float? newHealth = null)
@@ -22,6 +27,6 @@ public partial class PlayerUi : CanvasLayer
 
 	public void UpdateItems()
 	{
-		GetNode<TextureRect>("%Items/PrimaryItem/TextureRect").Texture = GlobalVariables.Player.PrimaryItem.GetNode<Sprite2D>("ItemSprite").Texture;
+		_primaryTexture.Texture = GlobalVariables.Player.PrimaryItem.GetNode<Sprite2D>("ItemSprite").Texture;
 	}
 }

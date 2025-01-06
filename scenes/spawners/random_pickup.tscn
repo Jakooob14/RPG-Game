@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b3qpdbhnsiou3"]
+
+[ext_resource type="PackedScene" uid="uid://bgm2idl1y7l6g" path="res://scenes/spawners/pickup.tscn" id="1_t13qe"]
+
+[node name="RandomPickup" instance=ExtResource("1_t13qe")]
+SpawnChance = 8444.9

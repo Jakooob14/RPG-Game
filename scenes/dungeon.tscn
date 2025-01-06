@@ -1,11 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://dkovcjsqb66ty"]
+[gd_scene load_steps=10 format=3 uid="uid://dkovcjsqb66ty"]
 
 [ext_resource type="PackedScene" uid="uid://b1ap3l775wdce" path="res://scenes/player.tscn" id="1_872jb"]
 [ext_resource type="Script" path="res://scripts/DungeonGenerator.cs" id="2_t7kup"]
 [ext_resource type="FontFile" uid="uid://55klmx3ma3gg" path="res://assets/fonts/Retro Gaming.ttf" id="3_8otxa"]
-[ext_resource type="PackedScene" uid="uid://bgm2idl1y7l6g" path="res://scenes/items/pickup.tscn" id="5_6oja4"]
+[ext_resource type="PackedScene" uid="uid://bgm2idl1y7l6g" path="res://scenes/spawners/pickup.tscn" id="5_6oja4"]
 [ext_resource type="PackedScene" uid="uid://ddvjfnp1ub8ea" path="res://scenes/player_ui.tscn" id="5_c62be"]
 [ext_resource type="PackedScene" uid="uid://xybvc46g47e5" path="res://scenes/items/health_consumable.tscn" id="6_f872m"]
+[ext_resource type="PackedScene" uid="uid://b3qpdbhnsiou3" path="res://scenes/spawners/random_pickup.tscn" id="7_6qcge"]
+[ext_resource type="PackedScene" uid="uid://yku3rrivchxx" path="res://scenes/items/item.tscn" id="8_87m0x"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_b6khp"]
 font = ExtResource("3_8otxa")
@@ -41,5 +43,10 @@ ItemScene = ExtResource("6_f872m")
 
 [node name="Pickup2" parent="." instance=ExtResource("5_6oja4")]
 position = Vector2(-629, -142)
+
+[node name="RandomPickup" parent="." instance=ExtResource("7_6qcge")]
+position = Vector2(-641, 47)
+ItemScenes = [ExtResource("8_87m0x"), ExtResource("6_f872m")]
+ItemWeights = PackedFloat32Array(30, 70)
 
 [connection signal="UpdateHealth" from="Player" to="PlayerUI" method="OnPlayerUpdateHealth"]
