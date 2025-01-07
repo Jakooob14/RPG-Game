@@ -52,7 +52,7 @@ _data = {
 size = Vector2(1664, 1152)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3eo24"]
-size = Vector2(1664, 1152)
+size = Vector2(1600, 1088)
 
 [node name="Room" type="Node2D"]
 z_index = 5
@@ -62,6 +62,7 @@ metadata/coordinates = Vector2i(0, 0)
 [node name="Node2D" type="Node2D" parent="."]
 
 [node name="Debug" type="Label" parent="Node2D"]
+visible = false
 offset_left = -251.0
 offset_top = -251.0
 offset_right = -160.0
@@ -113,18 +114,18 @@ shape = SubResource("RectangleShape2D_53cnw")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/RoomConstraints"]
 shape = SubResource("RectangleShape2D_3eo24")
 
-[node name="Entities" type="Node" parent="Node2D"]
+[node name="Entities" type="Node2D" parent="Node2D"]
 
 [node name="Enemy" parent="Node2D/Entities" instance=ExtResource("7_03ppb")]
 position = Vector2(220, 79)
 
-[node name="Items" type="Node" parent="Node2D"]
+[node name="Items" type="Node2D" parent="Node2D"]
 
 [node name="Pickup" parent="Node2D/Items" instance=ExtResource("5_8krkc")]
 position = Vector2(-764, 11)
 ItemScene = ExtResource("6_2q3vp")
 
 [connection signal="body_entered" from="Node2D/Area2D" to="." method="onBodyEntered"]
-[connection signal="body_entered" from="Node2D/Area2D" to="." method="OnRoomEntered"]
 [connection signal="body_exited" from="Node2D/Area2D" to="." method="onBodyExited"]
-[connection signal="body_exited" from="Node2D/Area2D" to="." method="OnRoomExited"]
+[connection signal="body_entered" from="Node2D/RoomConstraints" to="." method="OnRoomEntered"]
+[connection signal="body_exited" from="Node2D/RoomConstraints" to="." method="OnRoomExited"]

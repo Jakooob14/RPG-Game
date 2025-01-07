@@ -110,7 +110,7 @@ vertical_alignment = 2
 
 [node name="Sword" parent="Item" instance=ExtResource("5_gixiq")]
 z_index = 0
-DamageAmount = 1.0
+DamageAmount = 50.0
 Cooldown = 1.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

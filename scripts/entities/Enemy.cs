@@ -120,4 +120,11 @@ Delay: {Math.Round(DelayTimer.TimeLeft, 1)}/{Math.Round(DelayTimer.WaitTime, 1)}
 		hitParticles.LookAt(inducer.Position);
 		hitParticles.RotationDegrees += 180;
 	}
+
+	public override void Die()
+	{
+		base.Die();
+		
+		AssignedRoom.AssignedEntities.Remove(this);
+	}
 }

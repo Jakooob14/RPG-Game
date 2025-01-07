@@ -18,7 +18,6 @@ public partial class Pickup : Node2D
     {
         if (ItemScene == null && ItemScenes == null)
         {
-            
             QueueFree();
             return;
         }
@@ -33,25 +32,22 @@ public partial class Pickup : Node2D
 
         if (ItemScenes != null)
         {
-            for (int j = 0; j < 10; j++)
+            double p = GD.RandRange(0.0f, 100.0f);
+            PackedScene chosenScene = null;
+            for (int i = 0; i < ItemScenes.Length; i++)
             {
-                double p = GD.RandRange(0.0f, 100.0f);
-                PackedScene chosenScene = null;
-                for (int i = 0; i < ItemScenes.Length; i++)
+                if (p <= ItemWeights[i] & p > 0)
                 {
-                    if (p <= ItemWeights[i] & p > 0)
-                    {
-                        chosenScene = ItemScenes[i];
-                    }
-                    p -= ItemWeights[i];
+                    chosenScene = ItemScenes[i];
                 }
-                
-                if (chosenScene == null) return;
-
-                _item = chosenScene.Instantiate<Item>();
-                AddChild(_item);
-                GetNode<Sprite2D>("ItemSprite").QueueFree();
+                p -= ItemWeights[i];
             }
+            
+            if (chosenScene == null) return;
+
+            _item = chosenScene.Instantiate<Item>();
+            AddChild(_item);
+            GetNode<Sprite2D>("ItemSprite").QueueFree();
         }
     }
 
@@ -66,6 +62,7 @@ public partial class Pickup : Node2D
                 GlobalVariables.PlayerUi.AddChild(_item);
                 _item.Position = new Vector2(-10000, -10000);
                 player.PrimaryItem = _item;
+                QueueFree();
             }
             else
             {

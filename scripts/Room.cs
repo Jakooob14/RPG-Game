@@ -4,6 +4,7 @@ using Godot;
 public partial class Room : Node2D
 {
     private Vector2I _roomPosition;
+    private bool _playerInRoom = false;
 
     public Vector2I RoomPosition
     {
@@ -95,14 +96,33 @@ public partial class Room : Node2D
         {
             GlobalVariables.EntitiesInRoom = false;
         }
+
+        if (_playerInRoom)
+        {
+            if (AssignedEntities.Count > 0)
+            {
+                GlobalVariables.EntitiesInRoom = true;
+            }
+            else
+            {
+                GlobalVariables.EntitiesInRoom = false;
+            }
+        }
     }
     
     private void OnRoomEntered(Node2D body)
     {
-        
+        if (body is Player player)
+        {
+            _playerInRoom = true;
+        }
     }
 	
     private void OnRoomExited(Node2D body)
     {
+        if (body is Player player)
+        {
+            _playerInRoom = false;
+        }
     }
 }
