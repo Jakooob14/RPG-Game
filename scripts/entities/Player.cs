@@ -96,7 +96,7 @@ public partial class Player : LivingEntity
 		if (@event.IsActionPressed("use_primary_item"))
 		{
 			PrimaryItem.Use(this);
-			// PrimaryItem = null;
+			PrimaryItem = null;
 		}
 	}
 

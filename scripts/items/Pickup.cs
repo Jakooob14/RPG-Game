@@ -64,6 +64,7 @@ public partial class Pickup : Node2D
             {
                 RemoveChild(_item);
                 GlobalVariables.PlayerUi.AddChild(_item);
+                _item.Position = new Vector2(-10000, -10000);
                 player.PrimaryItem = _item;
             }
             else

@@ -3,7 +3,7 @@
 [ext_resource type="TileSet" uid="uid://b5gxo5pbbwtxa" path="res://assets/tilesets/wall_tileset.tres" id="1_dgig2"]
 [ext_resource type="Script" path="res://scripts/Corridor.cs" id="1_rv78d"]
 [ext_resource type="Texture2D" uid="uid://dgb8th1ancdgk" path="res://assets/white_pixel.png" id="2_e7wm8"]
-[ext_resource type="Script" path="res://scripts/RoomArea.cs" id="3_kqxc8"]
+[ext_resource type="Script" path="res://scripts/RoomArea.cs" id="4_uv43m"]
 
 [sub_resource type="Animation" id="Animation_ibo4e"]
 length = 0.001
@@ -43,7 +43,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lrk70"]
-size = Vector2(256, 128)
+size = Vector2(256, 192)
 
 [node name="Corridor" type="Node2D"]
 script = ExtResource("1_rv78d")
@@ -51,22 +51,22 @@ script = ExtResource("1_rv78d")
 [node name="Node2D" type="Node2D" parent="."]
 
 [node name="Walls" type="TileMapLayer" parent="Node2D"]
-tile_map_data = PackedByteArray("AAD9/wEAAAAAAAAAAAD+/wEAAAAAAAAAAAD//wEAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAEAAAAAAAAAAAACAAEAAAAAAAAAAAD9//7/AAAAAAAAAAD+//7/AAAAAAAAAAD///7/AAAAAAAAAAAAAP7/AAAAAAAAAAABAP7/AAAAAAAAAAACAP7/AAAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAD9//3/AAAAAAAAAAD+//3/AAAAAAAAAAD///3/AAAAAAAAAAAAAP3/AAAAAAAAAAABAP3/AAAAAAAAAAACAP3/AAAAAAAAAAD9/wIAAAAAAAAAAAD+/wIAAAAAAAAAAAD//wIAAAAAAAAAAAAAAAIAAAAAAAAAAAABAAIAAAAAAAAAAAACAAIAAAAAAAAAAAA=")
 tile_set = ExtResource("1_dgig2")
 
 [node name="Floor" type="TileMapLayer" parent="Node2D"]
-tile_map_data = PackedByteArray("AAD/////AAAAAAEAAAAAAP//AAAAAAEAAAAAAAAAAAAAAAEAAAD//wAAAAAAAAEAAAD+////AAAAAAEAAAD+/wAAAAAAAAEAAAABAP//AAAAAAEAAAABAAAAAAAAAAEAAAD9////AAAAAAEAAAD9/wAAAAAAAAEAAAACAP//AAAAAAEAAAACAAAAAAAAAAEAAAD8////AAAAAAEAAAD8/wAAAAAAAAEAAAADAP//AAAAAAEAAAADAAAAAAAAAAEAAAA=")
+tile_map_data = PackedByteArray("AAD/////AAAAAAEAAAAAAP//AAAAAAEAAAAAAAAAAAAAAAEAAAD//wAAAAAAAAEAAAD+////AAAAAAEAAAD+/wAAAAAAAAEAAAABAP//AAAAAAEAAAABAAAAAAAAAAEAAAD9////AAAAAAEAAAD9/wAAAAAAAAEAAAACAP//AAAAAAEAAAACAAAAAAAAAAEAAAD8////AAAAAAEAAAD8/wAAAAAAAAEAAAADAP//AAAAAAEAAAADAAAAAAAAAAEAAAD8//7/AAAAAAEAAAD9//7/AAAAAAEAAAD+//7/AAAAAAEAAAD///7/AAAAAAEAAAAAAP7/AAAAAAEAAAABAP7/AAAAAAEAAAACAP7/AAAAAAEAAAADAP7/AAAAAAEAAAD8/wEAAAAAAAEAAAD9/wEAAAAAAAEAAAD+/wEAAAAAAAEAAAD//wEAAAAAAAEAAAAAAAEAAAAAAAEAAAABAAEAAAAAAAEAAAACAAEAAAAAAAEAAAADAAEAAAAAAAEAAAA=")
 tile_set = ExtResource("1_dgig2")
 collision_enabled = false
 
 [node name="DoorLayer" type="TileMapLayer" parent="Node2D"]
-tile_map_data = PackedByteArray("AAD9////AAABAAAAAAD9/wAAAAABAAAAAAACAP//AAABAAAAAAACAAAAAAABAAAAAAA=")
+tile_map_data = PackedByteArray("AAD9////AAABAAAAAAD9/wAAAAABAAAAAAACAP//AAABAAAAAAACAAAAAAABAAAAAAD9//7/AAABAAAAAAD9/wEAAAABAAAAAAACAAEAAAABAAAAAAACAP7/AAABAAAAAAA=")
 tile_set = ExtResource("1_dgig2")
 
 [node name="Overlay" type="Sprite2D" parent="Node2D"]
 modulate = Color(0, 0, 0, 0.784314)
 position = Vector2(-7.62939e-06, -2.16961e-05)
-scale = Vector2(256, 128)
+scale = Vector2(256, 192)
 texture = ExtResource("2_e7wm8")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D"]
@@ -76,7 +76,7 @@ libraries = {
 }
 
 [node name="Area2D" type="Area2D" parent="Node2D"]
-script = ExtResource("3_kqxc8")
+script = ExtResource("4_uv43m")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Area2D"]
 shape = SubResource("RectangleShape2D_lrk70")

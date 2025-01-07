@@ -42,12 +42,18 @@ public partial class Room : Node2D
     public override void _Ready()
     {
         base._Ready();
-        
-        
-        Enemy enemy = GD.Load<PackedScene>("res://scenes/enemy.tscn").Instantiate<Enemy>();
-        enemy.AssignedRoom = this;
-        AssignedEntities.Add(enemy);
-        AddChild(enemy);
+
+        foreach (Node child in GetNode("Node2D/Entities").GetChildren())
+        {
+            if (child is LivingEntity livingEntity)
+            {
+                if (livingEntity is Enemy enemy)
+                {
+                    enemy.AssignedRoom = this;
+                }
+                AssignedEntities.Add(livingEntity);
+            }
+        }
         
         // Debug
         Label debugLabel = GetNode<Label>("Node2D/Debug");
@@ -89,5 +95,14 @@ public partial class Room : Node2D
         {
             GlobalVariables.EntitiesInRoom = false;
         }
+    }
+    
+    private void OnRoomEntered(Node2D body)
+    {
+        
+    }
+	
+    private void OnRoomExited(Node2D body)
+    {
     }
 }

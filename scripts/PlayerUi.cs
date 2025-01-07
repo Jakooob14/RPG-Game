@@ -27,6 +27,6 @@ public partial class PlayerUi : CanvasLayer
 
 	public void UpdateItems()
 	{
-		_primaryTexture.Texture = GlobalVariables.Player.PrimaryItem.GetNode<Sprite2D>("ItemSprite").Texture;
+		_primaryTexture.Texture = GlobalVariables.Player.PrimaryItem == null ? null : GlobalVariables.Player.PrimaryItem.GetNode<Sprite2D>("ItemSprite").Texture;
 	}
 }

@@ -3,11 +3,13 @@
 [ext_resource type="Script" path="res://scripts/items/HealthConsumable.cs" id="1_oyc4l"]
 [ext_resource type="Texture2D" uid="uid://dtwpm3lxicapn" path="res://assets/kaja.png" id="2_hb3a7"]
 
-[node name="HealthConsumable" type="Node2D"]
+[node name="HealthPotion" type="Node2D"]
 position = Vector2(-1, 0)
 script = ExtResource("1_oyc4l")
+HealthHealed = 40.0
+ItemName = "Health Potion"
 
 [node name="ItemSprite" type="Sprite2D" parent="."]
-scale = Vector2(0.05, 0.05)
+scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_hb3a7")
 region_rect = Rect2(0, 0, 256, 256)

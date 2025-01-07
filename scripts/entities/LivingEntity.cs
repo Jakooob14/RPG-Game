@@ -4,24 +4,24 @@ using System.ComponentModel;
 
 public partial class LivingEntity : Entity
 {
-    [Export]
-    public float Speed = 300.0f;
-    [Export] 
-    public float AttackCooldown = 1.0f;
+    [Export] public float Speed { get; set; } = 300.0f;
+    [Export] public float AttackCooldown { get; set; } = 1.0f;
     
     [ExportGroup("Knockback")]
-    [Export] 
-    public float KnockbackMultiplier = 1.0f;
-    [Export] 
-    public float KnockbackFriction = 0.1f;
+    [Export] public float KnockbackMultiplier { get; set; } = 1.0f;
+    [Export] public float KnockbackFriction { get; set; } = 0.1f;
     [ExportGroup("Knockback")]
-    [Export]
-    public bool KnockbackSpeedOverride = false;
+    [Export] public bool KnockbackSpeedOverride { get; set; } = false;
     [ExportGroup("Knockback")]
-    [Export]
-    public float KnockbackSpeedOverrideValue = 300.0f;
-	
-    public float Health { get; set; }
+    [Export] public float KnockbackSpeedOverrideValue { get; set; } = 300.0f;
+
+    private float _health;
+    public float Health
+    {
+        get => _health;
+        set => _health = value > MaxHealth ? MaxHealth : value;
+    }
+
     public float MaxHealth { get; set; }
 
     public bool Dead { get; set; }

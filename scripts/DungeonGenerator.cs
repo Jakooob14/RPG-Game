@@ -6,9 +6,15 @@ using Vector2 = Godot.Vector2;
 
 public partial class DungeonGenerator : Node
 {
-    private readonly PackedScene _roomScene = ResourceLoader.Load<PackedScene>("res://scenes/rooms/room.tscn");
     private readonly PackedScene _floorScene = ResourceLoader.Load<PackedScene>("res://scenes/rooms/floor.tscn");
     private readonly PackedScene _corridorScene = ResourceLoader.Load<PackedScene>("res://scenes/rooms/corridor.tscn");
+    
+    private readonly PackedScene _startingRoom = ResourceLoader.Load<PackedScene>("res://scenes/rooms/types/room1.tscn");
+
+    private readonly PackedScene[] _roomScenes =
+    {
+        ResourceLoader.Load<PackedScene>("res://scenes/rooms/types/room1.tscn")
+    };
 
     private readonly HashSet<Room> _rooms = new();
     private Vector2 _roomSize = GlobalVariables.RoomSize;
@@ -47,7 +53,7 @@ public partial class DungeonGenerator : Node
         UnloadDungeon();
 
         // Create the starting room at (0,0)
-        Room startingRoom = _roomScene.Instantiate<Room>();
+        Room startingRoom = _startingRoom.Instantiate<Room>();
         startingRoom.RoomPosition = Vector2I.Zero;
         _rooms.Add(startingRoom);
 
@@ -68,7 +74,7 @@ public partial class DungeonGenerator : Node
 
                 if (_rooms.All(room1 => room1.RoomPosition != newPosition) && GD.RandRange(0, 100) <= _roomChance)
                 {
-                    Room newRoom = _roomScene.Instantiate<Room>();
+                    Room newRoom = _roomScenes[GD.RandRange(0, _roomScenes.Length - 1)].Instantiate<Room>();
                     newRoom.RoomPosition = newPosition;
 
                     newRooms.Add(newRoom);
