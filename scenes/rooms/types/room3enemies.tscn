@@ -1,12 +1,10 @@
-[gd_scene load_steps=14 format=4 uid="uid://ckayinhh02pf3"]
+[gd_scene load_steps=12 format=4 uid="uid://d2b8r4esnr7ao"]
 
-[ext_resource type="Script" path="res://scripts/Room.cs" id="1_h6bcw"]
-[ext_resource type="TileSet" uid="uid://b5gxo5pbbwtxa" path="res://assets/tilesets/wall_tileset.tres" id="2_c034m"]
-[ext_resource type="Texture2D" uid="uid://dgb8th1ancdgk" path="res://assets/white_pixel.png" id="3_k2mc1"]
-[ext_resource type="Script" path="res://scripts/RoomArea.cs" id="4_2pyum"]
-[ext_resource type="PackedScene" uid="uid://bgm2idl1y7l6g" path="res://scenes/spawners/pickup.tscn" id="5_8krkc"]
-[ext_resource type="PackedScene" uid="uid://xybvc46g47e5" path="res://scenes/items/health_potion.tscn" id="6_2q3vp"]
-[ext_resource type="PackedScene" uid="uid://bk40no1qmfa3g" path="res://scenes/enemy.tscn" id="7_03ppb"]
+[ext_resource type="Script" path="res://scripts/Room.cs" id="1_cwvdp"]
+[ext_resource type="TileSet" uid="uid://b5gxo5pbbwtxa" path="res://assets/tilesets/wall_tileset.tres" id="2_hrdc5"]
+[ext_resource type="Texture2D" uid="uid://dgb8th1ancdgk" path="res://assets/white_pixel.png" id="3_fc483"]
+[ext_resource type="Script" path="res://scripts/RoomArea.cs" id="4_e8inq"]
+[ext_resource type="PackedScene" uid="uid://bk40no1qmfa3g" path="res://scenes/enemy.tscn" id="5_emgpa"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_f7pn1"]
 font_size = 32
@@ -56,7 +54,7 @@ size = Vector2(1600, 1088)
 
 [node name="Room" type="Node2D"]
 z_index = 5
-script = ExtResource("1_h6bcw")
+script = ExtResource("1_cwvdp")
 metadata/coordinates = Vector2i(0, 0)
 
 [node name="Node2D" type="Node2D" parent="."]
@@ -72,23 +70,23 @@ label_settings = SubResource("LabelSettings_f7pn1")
 
 [node name="Walls" type="TileMapLayer" parent="Node2D"]
 tile_map_data = PackedByteArray("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")
-tile_set = ExtResource("2_c034m")
+tile_set = ExtResource("2_hrdc5")
 
 [node name="BottomWall" type="TileMapLayer" parent="Node2D"]
 tile_map_data = PackedByteArray("AAD//xIAAAAAAAAAAAAAABIAAAAAAAAAAAD+/xIAAAAAAAAAAAABABIAAAAAAAAAAAA=")
-tile_set = ExtResource("2_c034m")
+tile_set = ExtResource("2_hrdc5")
 
 [node name="TopWall" type="TileMapLayer" parent="Node2D"]
 tile_map_data = PackedByteArray("AAD//+3/AAAAAAAAAAAAAO3/AAAAAAAAAAD+/+3/AAAAAAAAAAABAO3/AAAAAAAAAAA=")
-tile_set = ExtResource("2_c034m")
+tile_set = ExtResource("2_hrdc5")
 
 [node name="RightWall" type="TileMapLayer" parent="Node2D"]
 tile_map_data = PackedByteArray("AAAaAP//AAAAAAAAAAAaAAAAAAAAAAAAAAAaAP7/AAAAAAAAAAAaAAEAAAAAAAAAAAA=")
-tile_set = ExtResource("2_c034m")
+tile_set = ExtResource("2_hrdc5")
 
 [node name="LeftWall" type="TileMapLayer" parent="Node2D"]
 tile_map_data = PackedByteArray("AADl////AAAAAAAAAADl/wAAAAAAAAAAAADl//7/AAAAAAAAAADl/wEAAAAAAAAAAAA=")
-tile_set = ExtResource("2_c034m")
+tile_set = ExtResource("2_hrdc5")
 
 [node name="Overlay" type="Sprite2D" parent="Node2D"]
 visible = false
@@ -96,7 +94,7 @@ modulate = Color(0, 0, 0, 1)
 z_index = 100
 position = Vector2(-2.67029e-05, -3.8147e-06)
 scale = Vector2(1664, 1152)
-texture = ExtResource("3_k2mc1")
+texture = ExtResource("3_fc483")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D"]
 libraries = {
@@ -104,7 +102,7 @@ libraries = {
 }
 
 [node name="Area2D" type="Area2D" parent="Node2D"]
-script = ExtResource("4_2pyum")
+script = ExtResource("4_e8inq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Area2D"]
 shape = SubResource("RectangleShape2D_53cnw")
@@ -116,14 +114,16 @@ shape = SubResource("RectangleShape2D_3eo24")
 
 [node name="Entities" type="Node2D" parent="Node2D"]
 
-[node name="Enemy" parent="Node2D/Entities" instance=ExtResource("7_03ppb")]
-position = Vector2(220, 79)
+[node name="Enemy" parent="Node2D/Entities" instance=ExtResource("5_emgpa")]
+position = Vector2(-400, 260)
+
+[node name="Enemy2" parent="Node2D/Entities" instance=ExtResource("5_emgpa")]
+position = Vector2(400, 260)
+
+[node name="Enemy3" parent="Node2D/Entities" instance=ExtResource("5_emgpa")]
+position = Vector2(0, -247)
 
 [node name="Items" type="Node2D" parent="Node2D"]
-
-[node name="Pickup" parent="Node2D/Items" instance=ExtResource("5_8krkc")]
-position = Vector2(-764, 11)
-ItemScene = ExtResource("6_2q3vp")
 
 [connection signal="body_entered" from="Node2D/Area2D" to="." method="onBodyEntered"]
 [connection signal="body_exited" from="Node2D/Area2D" to="." method="onBodyExited"]

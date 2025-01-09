@@ -6,14 +6,17 @@
 [ext_resource type="Shader" path="res://assets/shaders/overlay.gdshader" id="5_wvclf"]
 [ext_resource type="Texture2D" uid="uid://b4bl1ev6136tw" path="res://assets/circle.svg" id="7_4ovwt"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ogpxm"]
-size = Vector2(130, 160)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_j5kft"]
+radius = 74.0
+height = 196.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_oyyrb"]
-size = Vector2(70, 102)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lpyk6"]
+radius = 47.0
+height = 148.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_uwkgj"]
-size = Vector2(93, 127)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lime7"]
+radius = 47.0
+height = 148.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_deb5p"]
 font = ExtResource("3_8ps1i")
@@ -165,10 +168,11 @@ scale_curve = SubResource("CurveTexture_sa7ak")
 [node name="Enemy" type="CharacterBody2D"]
 z_index = 1
 collision_layer = 2
+collision_mask = 2
 safe_margin = 1.0
 script = ExtResource("1_fd6yk")
 DamageAmount = 1.0
-Speed = 0.0
+Speed = 200.0
 KnockbackSpeedOverride = true
 
 [node name="Look" type="Node2D" parent="."]
@@ -176,16 +180,15 @@ KnockbackSpeedOverride = true
 [node name="HurtBox" type="Area2D" parent="Look"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Look/HurtBox"]
-shape = SubResource("RectangleShape2D_ogpxm")
+shape = SubResource("CapsuleShape2D_j5kft")
 
 [node name="HitBox" type="CollisionShape2D" parent="."]
-position = Vector2(-9.53674e-07, 0)
-shape = SubResource("RectangleShape2D_oyyrb")
+shape = SubResource("CapsuleShape2D_lpyk6")
 
 [node name="MaxChaseArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MaxChaseArea"]
-shape = SubResource("RectangleShape2D_uwkgj")
+shape = SubResource("CapsuleShape2D_lime7")
 
 [node name="DebugInfo" type="Label" parent="."]
 z_index = 99

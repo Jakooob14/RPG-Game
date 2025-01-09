@@ -1,0 +1,121 @@
+[gd_scene load_steps=11 format=4 uid="uid://dk01ed5vfa8ih"]
+
+[ext_resource type="Script" path="res://scripts/Room.cs" id="1_j244v"]
+[ext_resource type="TileSet" uid="uid://b5gxo5pbbwtxa" path="res://assets/tilesets/wall_tileset.tres" id="2_6atqk"]
+[ext_resource type="Texture2D" uid="uid://dgb8th1ancdgk" path="res://assets/white_pixel.png" id="3_sgwlv"]
+[ext_resource type="Script" path="res://scripts/RoomArea.cs" id="4_jqf2v"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_f7pn1"]
+font_size = 32
+
+[sub_resource type="Animation" id="Animation_k1vkx"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Overlay:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_cmhab"]
+resource_name = "room_opacity"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Overlay:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_37xwv"]
+_data = {
+"RESET": SubResource("Animation_k1vkx"),
+"room_opacity": SubResource("Animation_cmhab")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_53cnw"]
+size = Vector2(1664, 1152)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3eo24"]
+size = Vector2(1600, 1088)
+
+[node name="Room" type="Node2D"]
+z_index = 5
+script = ExtResource("1_j244v")
+metadata/coordinates = Vector2i(0, 0)
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Debug" type="Label" parent="Node2D"]
+visible = false
+offset_left = -251.0
+offset_top = -251.0
+offset_right = -160.0
+offset_bottom = -206.0
+text = "x, y"
+label_settings = SubResource("LabelSettings_f7pn1")
+
+[node name="Walls" type="TileMapLayer" parent="Node2D"]
+tile_map_data = PackedByteArray("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")
+tile_set = ExtResource("2_6atqk")
+
+[node name="BottomWall" type="TileMapLayer" parent="Node2D"]
+tile_map_data = PackedByteArray("AAD//xIAAAAAAAAAAAAAABIAAAAAAAAAAAD+/xIAAAAAAAAAAAABABIAAAAAAAAAAAA=")
+tile_set = ExtResource("2_6atqk")
+
+[node name="TopWall" type="TileMapLayer" parent="Node2D"]
+tile_map_data = PackedByteArray("AAD//+3/AAAAAAAAAAAAAO3/AAAAAAAAAAD+/+3/AAAAAAAAAAABAO3/AAAAAAAAAAA=")
+tile_set = ExtResource("2_6atqk")
+
+[node name="RightWall" type="TileMapLayer" parent="Node2D"]
+tile_map_data = PackedByteArray("AAAaAP//AAAAAAAAAAAaAAAAAAAAAAAAAAAaAP7/AAAAAAAAAAAaAAEAAAAAAAAAAAA=")
+tile_set = ExtResource("2_6atqk")
+
+[node name="LeftWall" type="TileMapLayer" parent="Node2D"]
+tile_map_data = PackedByteArray("AADl////AAAAAAAAAADl/wAAAAAAAAAAAADl//7/AAAAAAAAAADl/wEAAAAAAAAAAAA=")
+tile_set = ExtResource("2_6atqk")
+
+[node name="Overlay" type="Sprite2D" parent="Node2D"]
+visible = false
+modulate = Color(0, 0, 0, 1)
+z_index = 100
+position = Vector2(-2.67029e-05, -3.8147e-06)
+scale = Vector2(1664, 1152)
+texture = ExtResource("3_sgwlv")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D"]
+libraries = {
+"": SubResource("AnimationLibrary_37xwv")
+}
+
+[node name="Area2D" type="Area2D" parent="Node2D"]
+script = ExtResource("4_jqf2v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Area2D"]
+shape = SubResource("RectangleShape2D_53cnw")
+
+[node name="RoomConstraints" type="Area2D" parent="Node2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/RoomConstraints"]
+shape = SubResource("RectangleShape2D_3eo24")
+
+[node name="Entities" type="Node2D" parent="Node2D"]
+
+[node name="Items" type="Node2D" parent="Node2D"]
+
+[connection signal="body_entered" from="Node2D/Area2D" to="." method="onBodyEntered"]
+[connection signal="body_exited" from="Node2D/Area2D" to="." method="onBodyExited"]
+[connection signal="body_entered" from="Node2D/RoomConstraints" to="." method="OnRoomEntered"]
+[connection signal="body_exited" from="Node2D/RoomConstraints" to="." method="OnRoomExited"]

@@ -9,11 +9,14 @@ public partial class DungeonGenerator : Node
     private readonly PackedScene _floorScene = ResourceLoader.Load<PackedScene>("res://scenes/rooms/floor.tscn");
     private readonly PackedScene _corridorScene = ResourceLoader.Load<PackedScene>("res://scenes/rooms/corridor.tscn");
     
-    private readonly PackedScene _startingRoom = ResourceLoader.Load<PackedScene>("res://scenes/rooms/types/room1.tscn");
+    private readonly PackedScene _startingRoom = ResourceLoader.Load<PackedScene>("res://scenes/rooms/types/starting_room.tscn");
 
     private readonly PackedScene[] _roomScenes =
     {
-        ResourceLoader.Load<PackedScene>("res://scenes/rooms/types/room1.tscn")
+        ResourceLoader.Load<PackedScene>("res://scenes/rooms/types/room1enemy.tscn"),
+        ResourceLoader.Load<PackedScene>("res://scenes/rooms/types/room2enemies.tscn"),
+        ResourceLoader.Load<PackedScene>("res://scenes/rooms/types/room3enemies.tscn"),
+        ResourceLoader.Load<PackedScene>("res://scenes/rooms/types/room4enemies.tscn"),
     };
 
     private readonly HashSet<Room> _rooms = new();
