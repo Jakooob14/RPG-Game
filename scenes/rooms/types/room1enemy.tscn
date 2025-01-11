@@ -89,7 +89,6 @@ tile_map_data = PackedByteArray("AADl////AAAAAAAAAADl/wAAAAAAAAAAAADl//7/AAAAAAA
 tile_set = ExtResource("2_hlok0")
 
 [node name="Overlay" type="Sprite2D" parent="Node2D"]
-visible = false
 modulate = Color(0, 0, 0, 1)
 z_index = 100
 position = Vector2(-2.67029e-05, -3.8147e-06)
@@ -118,7 +117,7 @@ shape = SubResource("RectangleShape2D_3eo24")
 
 [node name="Items" type="Node2D" parent="Node2D"]
 
-[connection signal="body_entered" from="Node2D/Area2D" to="." method="onBodyEntered"]
-[connection signal="body_exited" from="Node2D/Area2D" to="." method="onBodyExited"]
+[connection signal="body_entered" from="Node2D/Area2D" to="Node2D/Area2D" method="OnBodyEntered"]
+[connection signal="body_exited" from="Node2D/Area2D" to="Node2D/Area2D" method="OnBodyExited"]
 [connection signal="body_entered" from="Node2D/RoomConstraints" to="." method="OnRoomEntered"]
 [connection signal="body_exited" from="Node2D/RoomConstraints" to="." method="OnRoomExited"]

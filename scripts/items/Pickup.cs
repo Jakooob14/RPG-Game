@@ -21,6 +21,12 @@ public partial class Pickup : Node2D
             QueueFree();
             return;
         }
+
+        if (GD.RandRange(0.0f, 100.0f) > SpawnChance)
+        {
+            QueueFree();
+            return;
+        }
         
         if (ItemScene != null)
         {

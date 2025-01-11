@@ -46,7 +46,8 @@ public partial class LivingEntity : Entity
         {
             Die();
         }
-        
+
+        GD.Print(this.Name);
         GetNode<AnimationPlayer>("AnimationPlayer").Play("hit");
         Knockback(inducer.GlobalPosition, KnockbackMultiplier);
     }

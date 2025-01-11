@@ -39,6 +39,13 @@ public partial class Player : LivingEntity
 	
 	}
 
+	public override void Die()
+	{
+		base.Die();
+
+		GlobalVariables.PlayerUi.GetNode<Control>("Control/DeathScreen").Visible = true;
+	}
+
 	public override void _Ready()
 	{
 		base._Ready();
@@ -101,21 +108,21 @@ public partial class Player : LivingEntity
 		}
 	}
 
-	public override void _UnhandledInput(InputEvent @event)
-	{
-		if (@event is InputEventMouseButton mouseButtonEvent)
-		{
-			Camera2D camera = GetNode<Camera2D>("%MainCamera");
-			if (camera == null) return;
-			if (mouseButtonEvent.ButtonIndex == MouseButton.WheelDown && mouseButtonEvent.Pressed)
-			{
-				camera.SetZoom(camera.GetZoom() / 1.2f);
-			} else if (mouseButtonEvent.ButtonIndex == MouseButton.WheelUp && mouseButtonEvent.Pressed)
-			{
-				camera.SetZoom(camera.GetZoom() * 1.2f);
-			}
-		}
-	}
+	// public override void _UnhandledInput(InputEvent @event)
+	// {
+	// 	if (@event is InputEventMouseButton mouseButtonEvent)
+	// 	{
+	// 		Camera2D camera = GetNode<Camera2D>("%MainCamera");
+	// 		if (camera == null) return;
+	// 		if (mouseButtonEvent.ButtonIndex == MouseButton.WheelDown && mouseButtonEvent.Pressed)
+	// 		{
+	// 			camera.SetZoom(camera.GetZoom() / 1.2f);
+	// 		} else if (mouseButtonEvent.ButtonIndex == MouseButton.WheelUp && mouseButtonEvent.Pressed)
+	// 		{
+	// 			camera.SetZoom(camera.GetZoom() * 1.2f);
+	// 		}
+	// 	}
+	// }
 
 	public override void _Process(double delta)
 	{

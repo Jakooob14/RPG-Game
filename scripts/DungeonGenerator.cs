@@ -34,21 +34,21 @@ public partial class DungeonGenerator : Node
         LoadDungeon();
     }
 
-    public override void _UnhandledInput(InputEvent @event)
-    {
-        if (@event is InputEventKey eventKey && eventKey.Pressed)
-        {
-            if (eventKey.Keycode == Key.F)
-            {
-                GenerateRooms();
-                LoadDungeon();
-            }
-            else if (eventKey.Keycode == Key.E)
-            {
-                UnloadDungeon();
-            }
-        }
-    }
+    // public override void _UnhandledInput(InputEvent @event)
+    // {
+    //     if (@event is InputEventKey eventKey && eventKey.Pressed)
+    //     {
+    //         if (eventKey.Keycode == Key.F)
+    //         {
+    //             GenerateRooms();
+    //             LoadDungeon();
+    //         }
+    //         else if (eventKey.Keycode == Key.E)
+    //         {
+    //             UnloadDungeon();
+    //         }
+    //     }
+    // }
 
     private void GenerateRooms()
     {

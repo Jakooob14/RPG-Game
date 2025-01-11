@@ -43,6 +43,8 @@ _data = {
 
 [node name="Sword" instance=ExtResource("1_anxh2")]
 script = ExtResource("2_d8vx8")
+DamageAmount = 30.0
+Cooldown = 1.0
 
 [node name="Item" type="Marker2D" parent="." index="0"]
 unique_name_in_owner = true

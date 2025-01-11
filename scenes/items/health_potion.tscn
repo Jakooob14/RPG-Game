@@ -4,9 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://dtwpm3lxicapn" path="res://assets/kaja.png" id="2_hb3a7"]
 
 [node name="HealthPotion" type="Node2D"]
-position = Vector2(-1, 0)
 script = ExtResource("1_oyc4l")
-HealthHealed = 40.0
+HealthHealed = 30.0
 ItemName = "Health Potion"
 
 [node name="ItemSprite" type="Sprite2D" parent="."]

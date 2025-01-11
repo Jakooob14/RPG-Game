@@ -134,6 +134,7 @@ _data = {
 }
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ewiur"]
+resource_local_to_scene = true
 shader = ExtResource("5_wvclf")
 shader_parameter/color = Vector3(255, 255, 255)
 shader_parameter/enabled = false
@@ -171,7 +172,7 @@ collision_layer = 2
 collision_mask = 2
 safe_margin = 1.0
 script = ExtResource("1_fd6yk")
-DamageAmount = 1.0
+DamageAmount = 15.0
 Speed = 200.0
 KnockbackSpeedOverride = true
 
@@ -191,6 +192,7 @@ shape = SubResource("CapsuleShape2D_lpyk6")
 shape = SubResource("CapsuleShape2D_lime7")
 
 [node name="DebugInfo" type="Label" parent="."]
+visible = false
 z_index = 99
 offset_left = -98.0
 offset_top = -396.0
